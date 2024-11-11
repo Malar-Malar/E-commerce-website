@@ -1,0 +1,35 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+html{
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+.header{
+    display:flex;
+    background-color: rgb(114, 77, 25);
+    color: white;
+    justify-content: space-around; 
+    padding: 20px;
+}
+.searchbar{
+    width: 200px;
+    margin-top: 5px;
+    height: 25px;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+.header a{
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    margin-top: 10px;
+}
+.header img{
+    height: 35px;
+}
+.backgroundImg img{
+    height: 800px;
+    width: 100%;
+}
