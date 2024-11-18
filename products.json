@@ -1,0 +1,42 @@
+[
+    {
+        "name": "Chocolate Mould",
+        "image":"./Assets/images/mould_img5.jpeg",
+        "price": 100
+        },
+        {
+         "name": "stand mixers",
+          "image": "./Assets/images/mould_img5.jpeg",
+          "price": 200
+        },
+        {
+          "name":"Piping bags & Nozzile",
+          "image": "./Assets/images/nozzile_img3.jpg",
+          "price": 100
+        },
+        {
+          "name":"Bread & Cake tins",
+          "image": "./Assets/images/bread_tin5.jpg",
+          "price": 1500
+        },
+        {
+          "name": "Packaging Box",
+          "image": "./Assets/images/packaging_box9.jpg",
+          "price": 40
+        },
+        {
+          "name": "Ingredients",
+          "image": "./Assets/images/maida_img.jpg",
+          "price": 60
+        },
+        {
+          "name": "Cake Toppers",
+          "image": "./Assets/images/cake_topper1.jpg",
+          "price": 190
+        },
+        {
+          "name": "Kitchenware",
+          "image": "./Assets/images/proof_ring1.jpg",
+          "price": 310
+        }
+]

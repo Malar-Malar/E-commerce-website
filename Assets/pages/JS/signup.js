@@ -45,14 +45,14 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebas
             let isValid = true;
 
             // Username validation
-            if (username.length <= 3) {
+            if (username.length < 3) {
                 usernameError.textContent = "Username must be at least 3 characters.";
                 usernameError.style.color = "red";
                 isValid = false;
             }
 
             // Email validation
-            if (!emailPattern.test(email)) {
+            if (!emailPattern.test(email)||email.includes("gmail.com.gmail.com")||email.includes("gmail.comgmail.com")||email.includes("@@")||email.includes(".gmail.com")||email.includes("..")) {
                 emailError.textContent = "Please enter a valid email address.";
                 emailError.style.color = "red";
                 isValid = false;
@@ -105,3 +105,5 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebas
             if (password.length >= 8) passwordError.textContent = "";
             if (password === confirmPassword) confirmPasswordError.textContent = "";
         });
+
+
