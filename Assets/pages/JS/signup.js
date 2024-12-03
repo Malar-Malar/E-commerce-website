@@ -26,7 +26,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebas
         const confirmPasswordError = document.getElementById("confirmPasswordError");
 
         // Email pattern for validation
-        const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+        const emailPattern =/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
         form.addEventListener("submit", async function(event) {
             event.preventDefault(); // Prevent default form submission
@@ -45,14 +45,14 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebas
             let isValid = true;
 
             // Username validation
-            if (username.length < 3) {
+            if (username.length < 3||username.includes(" ")) {
                 usernameError.textContent = "Username must be at least 3 characters.";
                 usernameError.style.color = "red";
                 isValid = false;
             }
 
             // Email validation
-            if (!emailPattern.test(email)||email.includes("gmail.com.gmail.com")||email.includes("gmail.comgmail.com")||email.includes("@@")||email.includes(".gmail.com")||email.includes("..")) {
+            if (!emailPattern.test(email)||email.includes("gmail.com.gmail.com")||email.includes("gmail.comgmail.com")||email.includes("@@")||email.includes(".gmail.com")||email.includes("..")||email.length>=60||email.includes(" ")) {
                 emailError.textContent = "Please enter a valid email address.";
                 emailError.style.color = "red";
                 isValid = false;
