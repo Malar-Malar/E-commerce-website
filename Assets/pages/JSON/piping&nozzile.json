@@ -1,0 +1,61 @@
+{
+    "products": [
+        {
+          "image": "../../../Assets/images/my-wish-list.png",
+          "image1": "../../../Assets/images/piping_bag1.jpg",
+          "name": "piping bag",
+          "image2": "../../../Assets/images/star_rating_img.webp",
+          "price": "$9000"
+        },
+        {
+            "image": "../../../Assets/images/my-wish-list.png",
+            "image1": "../../../Assets/images/piping_bag2.jpg",
+            "name": "piping bag",
+            "image2": "../../../Assets/images/star_rating_img.webp",
+            "price": "$8200"
+        },
+        {
+            "image": "../../../Assets/images/my-wish-list.png",
+            "image1": "../../../Assets/images/nozzile_img1.jpg",
+            "name": "nozzile",
+            "image2": "../../../Assets/images/star_rating_img.webp",
+            "price": "$5000"
+        },{
+            "image": "../../../Assets/images/my-wish-list.png",
+            "image1":"../../../Assets/images/nozzile_img2.jpg",
+            "name": "nozzile",
+            "image2": "../../../Assets/images/star_rating_img.webp",
+            "price": "$8500"
+        },
+        {
+            "image": "../../../Assets/images/my-wish-list.png",
+            "image1": "../../../Assets/images/nozzile_img3.jpg",
+            "name": "nozzile",
+            "image2": "../../../Assets/images/star_rating_img.webp",
+            "price": "$9000"
+        },
+        {
+            "image": "../../../Assets/images/my-wish-list.png",
+            "image1": "../../../Assets/images/nozzile_img4.jpg",
+            "name": "nozzile",
+            "image2": "../../../Assets/images/star_rating_img.webp",
+            "price": "$32000"
+        },
+        {
+            "image": "../../../Assets/images/my-wish-list.png",
+            "image1": "../../../Assets/images/nozzile_img5.jpg",
+            "name": "nozzile",
+            "image2": "../../../Assets/images/star_rating_img.webp",
+            "price": "$35000"   
+        },
+        {
+            "image": "../../../Assets/images/my-wish-list.png",
+            "image1": "../../../Assets/images/nozzile_img6.jpg",
+            "name": "nozzile",
+            "image2": "../../../Assets/images/star_rating_img.webp",
+            "price": "$9000"
+        }
+        
+
+    ]
+  }

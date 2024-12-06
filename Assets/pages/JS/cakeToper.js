@@ -1,4 +1,56 @@
-const isUserLoggedIn = () => {
+
+fetch('../../../Assets/pages/json/cakeTopper.json')
+  .then(response => response.json())
+  .then(jsonData => {
+    
+
+  // Get the container for all products
+  const productList = document.getElementById("product-list");
+
+  // Loop through the products and generate product cards
+  jsonData.products.forEach(product => {
+      const productDiv = document.createElement("div");
+      productDiv.classList.add("products");
+
+      productDiv.innerHTML = `
+          <!-- Wishlist Icon -->
+          <img src="${product.image}" alt="wishlist_img" class="Wishlist-img">
+          
+          <!-- Product Image -->
+          <img src="${product.image1}" alt="cake_topper_img" class="products-images">
+          
+          <!-- Star Rating -->
+          <img src="${product.image2}" alt="rating" class="stars_rating">
+          
+          <!-- Product Price -->
+          <p>Price: ${product.price}</p>
+          
+          
+      `;
+      // Add "Add to Cart" button
+      const addToCartButton = document.createElement("button");
+      addToCartButton.textContent = "Add to Cart";
+      addToCartButton.classList.add("button");
+      addToCartButton.addEventListener("click", () => {
+        addToCart(`Product ${index + 1}`, product.image1, product.price, "#");
+      });
+      productDiv.appendChild(addToCartButton);
+
+      // Add "Buy Now" button
+      const buyNowButton = document.createElement("button");
+      buyNowButton.textContent = "Buy Now";
+      buyNowButton.classList.add("buttons");
+      productDiv.appendChild(buyNowButton);
+
+      // Append the product to the container
+      productList.appendChild(productDiv);
+    });
+  })
+  .catch(error => {
+    console.error("Error fetching the product data:", error);
+  });
+
+  const isUserLoggedIn = () => {
     return localStorage.getItem('userLoggedIn') === 'true';
   };
   
@@ -6,7 +58,7 @@ const isUserLoggedIn = () => {
      const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
      if (!isLoggedIn) {
          alert('You need to be logged in to add items to your cart.');
-         window.location.href="../../../Assets/pages/html/login.html";
+         window.location.href="./Assets/pages/html/login.html";
          return;
      }
   

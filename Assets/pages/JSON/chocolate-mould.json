@@ -1,0 +1,61 @@
+ {
+    "products": [
+        {
+          "image": "../../../Assets/images/my-wish-list.png",
+          "image1": "../../../Assets/images/mould_img1.jpg",
+          "name": "mould",
+          "image2": "../../../Assets/images/star_rating_img.webp",
+          "price": "$120"
+        },
+        {
+            "image": "../../../Assets/images/my-wish-list.png",
+            "image1": "../../../Assets/images/mould_img3.jpg",
+            "name": "mould",
+            "image2": "../../../Assets/images/star_rating_img.webp",
+            "price": "$180"
+        },
+        {
+            "image": "../../../Assets/images/my-wish-list.png",
+            "image1": "../../../Assets/images/mould_img4.jpg",
+            "name": "mould",
+            "image2": "../../../Assets/images/star_rating_img.webp",
+            "price": "$200"
+        },{
+            "image": "../../../Assets/images/my-wish-list.png",
+            "image1":"../../../Assets/images/mould_img5.jpg",
+            "name": "mould",
+            "image2": "../../../Assets/images/star_rating_img.webp",
+            "price": "$220"
+        },
+        {
+            "image": "../../../Assets/images/my-wish-list.png",
+            "image1": "../../../Assets/images/mould_img6.jpg",
+            "name": "mould",
+            "image2": "../../../Assets/images/star_rating_img.webp",
+            "price": "$200"
+        },
+        {
+            "image": "../../../Assets/images/my-wish-list.png",
+            "image1": "../../../Assets/images/mould_img7.jpg",
+            "name": "mould",
+            "image2": "../../../Assets/images/star_rating_img.webp",
+            "price": "$60"
+        },
+        {
+            "image": "../../../Assets/images/my-wish-list.png",
+            "image1": "../../../Assets/images/mould_img8.jpg",
+            "name": "mould",
+            "image2": "../../../Assets/images/star_rating_img.webp",
+            "price": "$100"   
+        },
+        {
+            "image": "../../../Assets/images/my-wish-list.png",
+            "image1":"../../../Assets/images/mould_img9.jpg",
+            "name": "mould",
+            "image2": "../../../Assets/images/star_rating_img.webp",
+            "price": "$250"
+        }
+        
+
+    ]
+  }

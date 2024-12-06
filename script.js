@@ -49,53 +49,68 @@ const jsonDatas={
       {
         "image": "../../../Assets/images/my-wish-list.png",
         "image1": "../../../Assets/images/stand_mixers2.jpg",
+        "name": "standmixer",
         "image2": "../../../Assets/images/star_rating_img.webp",
         "price": "$9000"
       },
       {
+        "id":2,
         "image": "../../../Assets/images/my-wish-list.png",
         "image1": "../../../Assets/images/oven_img.jpg",
+        "name": "standmixer",
         "image2": "../../../Assets/images/star_rating_img.webp",
         "price": "$29000"
       },
       {
+        "id":3,
         "image": "../../../Assets/images/my-wish-list.png",
         "image1": "../../../Assets/images/stand_mixers2.jpg",
-        "image2": "../../../Assets/images/star_rating_img.webp",
-        "price": "$9000"
-      },{
-        "image": "../../../Assets/images/my-wish-list.png",
-        "image1": "../../../Assets/images/stand_mixers2.jpg",
+        "name": "standmixer",
         "image2": "../../../Assets/images/star_rating_img.webp",
         "price": "$9000"
       },
-      {
+      { 
+        "id":4,
         "image": "../../../Assets/images/my-wish-list.png",
         "image1": "../../../Assets/images/stand_mixers2.jpg",
+        "name": "standmixer",
         "image2": "../../../Assets/images/star_rating_img.webp",
         "price": "$9000"
       },
-      {
+      { "id":5,
         "image": "../../../Assets/images/my-wish-list.png",
         "image1": "../../../Assets/images/stand_mixers2.jpg",
+        "name": "standmixer",
         "image2": "../../../Assets/images/star_rating_img.webp",
         "price": "$9000"
       },
-      {
+      {  
+        "id":6,
         "image": "../../../Assets/images/my-wish-list.png",
         "image1": "../../../Assets/images/stand_mixers2.jpg",
+        "name": "standmixer",
         "image2": "../../../Assets/images/star_rating_img.webp",
         "price": "$9000"
       },
-      {
+      { "id":7,
         "image": "../../../Assets/images/my-wish-list.png",
         "image1": "../../../Assets/images/stand_mixers2.jpg",
+        "name": "standmixer",
+        "image2": "../../../Assets/images/star_rating_img.webp",
+        "price": "$9000"
+      },
+      { "id":8,
+        "image": "../../../Assets/images/my-wish-list.png",
+        "image1": "../../../Assets/images/stand_mixers2.jpg",
+        "name": "standmixer",
         "image2": "../../../Assets/images/star_rating_img.webp",
         "price": "$9000"
       }
 
    ]
 }
+
+
 
 const productList = document.getElementById("product-list");
 if (productList) {
@@ -120,6 +135,7 @@ if (best_seller) {
             <p class="seller">Best Seller</p>
             <img src="${product.image}" alt="Add to Wishlist" class="Wishlist-img">
             <img src="${product.image1}" alt="Product Image ${index + 1}" class="products-images">
+            <p class="name">${product.name}</p?
             <img src="${product.image2}" alt="Star Rating" class="stars_rating">
             <p>Price: ${product.price}</p>
         `;
@@ -138,19 +154,5 @@ if (best_seller) {
     });
 }
 
-function addToCart(name, image, price, link) {
-    const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
-    if (!isLoggedIn) {
-        alert('You need to be logged in to add items to your cart.');
-        return;
-    }
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const product = { name, image, price, link };
-    if (!cart.find(item => item.name === name)) {
-        cart.push(product);
-        localStorage.setItem('cart', JSON.stringify(cart));
-        alert(`${name} has been added to your cart!`);
-    } else {
-        alert(`${name} is already in your cart!`);
-    }
-}
+
+

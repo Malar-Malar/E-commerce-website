@@ -5,6 +5,7 @@
 }
 html{
     overflow-x: hidden;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .header{
@@ -17,27 +18,33 @@ html{
     padding: 20px;
     z-index: 1;
 }
-
 .searchbar{
     width: 200px;
     height: 25px;
     border-radius: 10px;
     border: 1px solid black;
-    margin-top: 10px;
+  
 }
 .header a{
     text-decoration: none;
     color: white;
     font-size: 20px;
-    margin-top: 10px;
+    font-size: 25px;
+}
+.space{
+  height: 120px;
 }
 .header img{
-    height: 35px;
-    margin-bottom: 20px;
+    height: 30px;
+    
 }
 .backgroundImg img{
     height: 870px;
     width: 100%;
+}
+.head{
+  text-align: center;
+  margin-bottom: 50px;
 }
 .main_page{
     font-size: 40px;
@@ -154,7 +161,11 @@ html{
         .products:hover {
         transform: scale(1.05);
         }
-
+        .name{
+          color: black;
+          font-size: 20px;
+          margin: 10px;
+        }
 
 
         /* * {

@@ -4,25 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../../../Assets/pages/CSS/boxes.css">
+    <link rel="stylesheet" href="../../../style.css">
 </head>
 <body>
     <div class="header">
         <h1>Pastry Provision</h1>
-        <div>
-            <input type="text" placeholder="Search" class="searchbar" >
-        </div>
-        <a href="#Home">Home</a>
-        <a href="#Product">Product</a>
-        <a href="Contact">Contact</a>
-        <a href="../../../Assets/pages/html/login.html" >Log in </a>
-        <img src="../../../Assets/images/profile-img.png" alt="profile-icon">
-        <img src="../../../Assets/images/Add-to-cart-image.webp" alt="Add-to-cart-logo">
-    </div>
-    <div class="container"></div>
+          <a href="./Assets/pages/html/searchbar.html">
+              <img src="../../../Assets/images/search.jpg" alt="searchbar_img"> 
+          </a>
+          <a href="#Home">Home</a>
+          <a href="#Product">Product</a>
+          <a href="#Contact">Contact</a>
+          <a href="../../../Assets/pages/html/login.html" >Log in </a>
+          <img src="../../../Assets/images/profile-img.png"  alt="profile-icon">
+          <a href="../../../Assets/pages/html/cart.html">
+              <img src="../../../Assets/images/Add-to-cart-image.webp" class="add-to-cart" alt="Add-to-cart-logo">
+          </a>
+  </div>
+     <div class="space"></div>
     <h1 class="head">Packaging Box</h1>
-    <div id="boxes-container" class="product-container"></div>
+    <div id="product-list" class="product-container"></div>
     
-    <script src="../../../Assets/pages/JS/boxes.js"></script>
+    <script src="../../../Assets/pages/JS/boxes.js"></script> 
 </body>
 </html>

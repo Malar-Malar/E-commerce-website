@@ -1,56 +1,8 @@
-const jsonData = {
-    "products": [
-        {
-          "image": "../../../Assets/images/my-wish-list.png",
-          "image1": "../../../Assets/images/stand_mixers2.jpg",
-          "image2": "../../../Assets/images/star_rating_img.webp",
-          "price": "$9000"
-        },
-        {
-            "image": "../../../Assets/images/my-wish-list.png",
-            "image1": "../../../Assets/images/stand_mixers4.jpg",
-            "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$8200"
-        },
-        {
-            "image": "../../../Assets/images/my-wish-list.png",
-            "image1": "../../../Assets/images/stand_mixers3.jpg",
-            "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$5000"
-        },{
-            "image": "../../../Assets/images/my-wish-list.png",
-            "image1":"../../../Assets/images/stand_mixers5.jpg",
-            "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$8500"
-        },
-        {
-            "image": "../../../Assets/images/my-wish-list.png",
-            "image1": "../../../Assets/images/stand_mixers1.jpg",
-            "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$9000"
-        },
-        {
-            "image": "../../../Assets/images/my-wish-list.png",
-            "image1": "../../../Assets/images/stand_mixers6.jpg",
-            "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$32000"
-        },
-        {
-            "image": "../../../Assets/images/my-wish-list.png",
-            "image1": "../../../Assets/images/stand_mixers7.jpg",
-            "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$35000"   
-        },
-        {
-            "image": "../../../Assets/images/my-wish-list.png",
-            "image1": "../../../Assets/images/stand_mixers8.jpg",
-            "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$9000"
-        }
-        
 
-    ]
-  };
+
+fetch('../../../Assets/pages/json/stand_mixers.json')
+  .then(response => response.json())
+  .then(jsonData => {
 
   // Get the container for all products
   const productList = document.getElementById("product-list");
@@ -79,4 +31,5 @@ const jsonData = {
       `;
       
       productList.appendChild(productDiv);
-  });
+  })
+});
