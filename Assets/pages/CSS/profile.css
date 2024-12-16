@@ -1,0 +1,18 @@
+*{
+    margin: auto;
+}
+.profile_container{
+    display: block;
+    text-align: center;
+    background-color: rgb(125, 87, 62);
+}
+.profile_img{
+    height: 80px;
+    width: 80px;
+    padding: 20px;
+}
+p{
+    padding: 10px;
+    color: white;
+    font-size: 20px;
+}

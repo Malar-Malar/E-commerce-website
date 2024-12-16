@@ -1,0 +1,65 @@
+{
+"product" :[
+      {
+        "image": "../../../Assets/images/my-wish-list.png",
+        "image1": "../../../Assets/images/stand_mixers2.jpg",
+        "name": "standmixer",
+        "image2": "../../../Assets/images/star_rating_img.webp",
+        "price": "$9000"
+      },
+      {
+        "id":2,
+        "image": "../../../Assets/images/my-wish-list.png",
+        "image1": "../../../Assets/images/oven_img.jpg",
+        "name": "standmixer",
+        "image2": "../../../Assets/images/star_rating_img.webp",
+        "price": "$29000"
+      },
+      {
+        "id":3,
+        "image": "../../../Assets/images/my-wish-list.png",
+        "image1": "../../../Assets/images/stand_mixers2.jpg",
+        "name": "standmixer",
+        "image2": "../../../Assets/images/star_rating_img.webp",
+        "price": "$9000"
+      },
+      { 
+        "id":4,
+        "image": "../../../Assets/images/my-wish-list.png",
+        "image1": "../../../Assets/images/stand_mixers2.jpg",
+        "name": "standmixer",
+        "image2": "../../../Assets/images/star_rating_img.webp",
+        "price": "$9000"
+      },
+      { "id":5,
+        "image": "../../../Assets/images/my-wish-list.png",
+        "image1": "../../../Assets/images/stand_mixers2.jpg",
+        "name": "standmixer",
+        "image2": "../../../Assets/images/star_rating_img.webp",
+        "price": "$9000"
+      },
+      {  
+        "id":6,
+        "image": "../../../Assets/images/my-wish-list.png",
+        "image1": "../../../Assets/images/stand_mixers2.jpg",
+        "name": "standmixer",
+        "image2": "../../../Assets/images/star_rating_img.webp",
+        "price": "$9000"
+      },
+      { "id":7,
+        "image": "../../../Assets/images/my-wish-list.png",
+        "image1": "../../../Assets/images/stand_mixers2.jpg",
+        "name": "standmixer",
+        "image2": "../../../Assets/images/star_rating_img.webp",
+        "price": "$9000"
+      },
+      { "id":8,
+        "image": "../../../Assets/images/my-wish-list.png",
+        "image1": "../../../Assets/images/stand_mixers2.jpg",
+        "name": "standmixer",
+        "image2": "../../../Assets/images/star_rating_img.webp",
+        "price": "$9000"
+      }
+
+   ]
+}

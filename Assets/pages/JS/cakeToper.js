@@ -1,150 +1,99 @@
+import { getAuth } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBGtCmw3QskPI9jyB-BB5LHN3IkqhwPerk",
+  authDomain: "bakery-shop-59e3c.firebaseapp.com",
+  projectId: "bakery-shop-59e3c",
+  storageBucket: "bakery-shop-59e3c.appspot.com",
+  messagingSenderId: "144499188515",
+  appId: "1:144499188515:web:53ea8d9b0eb845a45a6296",
+  measurementId: "G-KEVGH6JRX7",
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// Global variable to track the current user
+let currentUser = null;
+
+// Listen for authentication state changes
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("User is logged in:", user.email);
+    currentUser = user;  // Set the currentUser variable when the user is logged in
+  } else {
+    console.log("No user is logged in.");
+    currentUser = null;  // Reset the currentUser variable when the user is logged out
+  }
+});
 
 fetch('../../../Assets/pages/json/cakeTopper.json')
-  .then(response => response.json())
-  .then(jsonData => {
-    
+  .then((response) => response.json())
+  .then((jsonData) => {
+    const productList = document.getElementById("product-list");
 
-  // Get the container for all products
-  const productList = document.getElementById("product-list");
-
-  // Loop through the products and generate product cards
-  jsonData.products.forEach(product => {
+    jsonData.products.forEach((product) => {
       const productDiv = document.createElement("div");
       productDiv.classList.add("products");
 
       productDiv.innerHTML = `
-          <!-- Wishlist Icon -->
-          <img src="${product.image}" alt="wishlist_img" class="Wishlist-img">
-          
-          <!-- Product Image -->
-          <img src="${product.image1}" alt="cake_topper_img" class="products-images">
-          
-          <!-- Star Rating -->
-          <img src="${product.image2}" alt="rating" class="stars_rating">
-          
-          <!-- Product Price -->
-          <p>Price: ${product.price}</p>
-          
-          
+        <img src="${product.image}" alt="wishlist_img" class="Wishlist-img">
+        <img src="${product.image1}" alt="stand_mixer_img" class="products-images">
+        <img src="${product.image2}" alt="rating" class="stars_rating">
+        <p>Price: ${product.price}</p> 
+        <button type="button" class="button" 
+                onclick="addToCart('${product.name}', '${product.price}', '${product.image1}')">
+                Add to Cart
+        </button>
+        <button type="button" class="buttons">Buy Now</button>
       `;
-      // Add "Add to Cart" button
-      const addToCartButton = document.createElement("button");
-      addToCartButton.textContent = "Add to Cart";
-      addToCartButton.classList.add("button");
-      addToCartButton.addEventListener("click", () => {
-        addToCart(`Product ${index + 1}`, product.image1, product.price, "#");
-      });
-      productDiv.appendChild(addToCartButton);
 
-      // Add "Buy Now" button
-      const buyNowButton = document.createElement("button");
-      buyNowButton.textContent = "Buy Now";
-      buyNowButton.classList.add("buttons");
-      productDiv.appendChild(buyNowButton);
-
-      // Append the product to the container
       productList.appendChild(productDiv);
     });
-  })
-  .catch(error => {
-    console.error("Error fetching the product data:", error);
   });
 
-  const isUserLoggedIn = () => {
-    return localStorage.getItem('userLoggedIn') === 'true';
-  };
+// Expose the addToCart function globally
+window.addToCart = function addToCart(name, price, img) {
+  console.log("addToCart called with:", name, price, img);
+
+  // Get current user's email, or use 'guest' if not logged in
+  const userEmail = currentUser ? currentUser.email.replace('.', '_') : 'guest';
   
-   function addToCart(name, image, price, link) {
-     const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
-     if (!isLoggedIn) {
-         alert('You need to be logged in to add items to your cart.');
-         window.location.href="./Assets/pages/html/login.html";
-         return;
-     }
-  
-     // Get cart data from localStorage
-     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  
-     // Check if product already exists in cart
-     const existingItem = cart.find(item => item.name === name);
-     if (existingItem) {
-         alert(`${name} is already in your cart!`);
-     } else {
-         // Add new product to cart
-         const product = { name, image, price, link, quantity: 1 };
-         cart.push(product);
-         localStorage.setItem('cart', JSON.stringify(cart));
-         alert(`${name} has been added to your cart!`);
-     }
-   }
-  
-   
-  
-   function login(username, password) {
-    // Replace this with actual authentication logic
-    if (username === 'user' && password === 'password') {
-        localStorage.setItem('userLoggedIn', 'true');
-        alert('Login successful!');
-        window.location.href = './index.html'; // Redirect to the main page
+  // Get cart items from localStorage
+  let cart = JSON.parse(localStorage.getItem(userEmail)) || [];
+
+  // Check if the item already exists in the cart
+  const existingItem = cart.find((item) => item.name === name && item.price === price && item.img === img);
+
+  if (existingItem) {
+    // If the item exists, increase quantity
+    if (existingItem.quantity < 10) {
+      existingItem.quantity += 1;
+      alert('Increased quantity of the item in your cart!');
     } else {
-        alert('Invalid login credentials!');
+      alert('Maximum quantity of 10 reached for this item.');
     }
+  } else {
+    // If the item doesn't exist, add a new entry
+    cart.push({
+      name,
+      price,
+      img,
+      quantity: 1
+    });
+    alert('Product added to cart!');
   }
-  
-  // Simulated logout functionality
-  function logout() {
-    localStorage.removeItem('userLoggedIn');
-    alert('You have been logged out.');
-    window.location.href = ''; // Redirect to login page
+
+  // Update cart in localStorage
+  localStorage.setItem(userEmail, JSON.stringify(cart));
+
+  console.log("Updated Cart in localStorage:", JSON.parse(localStorage.getItem(userEmail)));
+
+  if (!currentUser) {
+    alert('You are not logged in. The item has been added to your cart as a guest.');
   }
-  
-  
-   // Function to load cart items in cart.html
-   function loadCart() {
-     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-     const cartContainer = document.getElementById('cart-container');
-     
-     if (!cartContainer) return;
-  
-     if (cart.length === 0) {
-         cartContainer.innerHTML = '<p>Your cart is empty!</p>';
-         return;
-     }
-  
-     cartContainer.innerHTML = ''; // Clear existing items
-  
-     let totalPrice = 0;
-  
-     cart.forEach((product, index) => {
-         const productDiv = document.createElement('div');
-         productDiv.classList.add('cart-item');
-         productDiv.innerHTML = `
-             <img src="${product.image}" alt="${product.name}" class="cart-item-image">
-             <div class="cart-item-details">
-                 <h3>${product.name}</h3>
-                 <p>Price: ${product.price}</p>
-                 <p>Quantity: <span id="quantity-${index}">${product.quantity}</span></p>
-                 <button onclick="removeFromCart(${index})">Remove</button>
-             </div>
-         `;
-  
-         cartContainer.appendChild(productDiv);
-  
-         totalPrice += parseFloat(product.price.slice(1)) * product.quantity;
-     });
-  
-     const totalDiv = document.createElement('div');
-     totalDiv.classList.add('cart-total');
-     totalDiv.innerHTML = `<h3>Total: $${totalPrice.toFixed(2)}</h3>`;
-     cartContainer.appendChild(totalDiv);
-   }
-  
-   function removeFromCart(index) {
-     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-     cart.splice(index, 1); // Remove item by index
-     localStorage.setItem('cart', JSON.stringify(cart));
-     loadCart(); // Reload the cart page
-   }
-  
-  
-  
+};
+

@@ -1,135 +1,133 @@
-// Fetch product data
+import { getAuth } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBGtCmw3QskPI9jyB-BB5LHN3IkqhwPerk",
+  authDomain: "bakery-shop-59e3c.firebaseapp.com",
+  projectId: "bakery-shop-59e3c",
+  storageBucket: "bakery-shop-59e3c.appspot.com",
+  messagingSenderId: "144499188515",
+  appId: "1:144499188515:web:53ea8d9b0eb845a45a6296",
+  measurementId: "G-KEVGH6JRX7",
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// Global variable to track the current user
+let currentUser = null;
+
+// Listen for authentication state changes
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("User is logged in:", user.email);
+    currentUser = user;  // Set the currentUser variable when the user is logged in
+  } else {
+    console.log("No user is logged in.");
+    currentUser = null;  // Reset the currentUser variable when the user is logged out
+  }
+});
+
 fetch('../../../Assets/pages/json/boxes.json')
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    return response.json();
-  })
-  .then(jsonData => {
+  .then((response) => response.json())
+  .then((jsonData) => {
     const productList = document.getElementById("product-list");
 
-    jsonData.products.forEach((product, index) => {
+    jsonData.products.forEach((product) => {
       const productDiv = document.createElement("div");
       productDiv.classList.add("products");
 
       productDiv.innerHTML = `
-        <img src="${product.image}" alt="wishlist_img" class="Wishlist-img">
-        <img src="${product.image1}" alt="packaging_box_img" class="products-images">
+        <img src="${product.image}" alt="wishlist_img" class="Wishlist-img" id="wishlist-${product.id}">
+        <img src="${product.image1}" alt="stand_mixer_img" class="products-images">
         <img src="${product.image2}" alt="rating" class="stars_rating">
-        <p>Price: ${product.price}</p>
+        <p>Price: ${product.price}</p> 
+        <button type="button" class="button" onclick="addToCart('${product.name}', '${product.price}', '${product.image1}')">Add to Cart</button>
+        <button type="button" class="buttons">Buy Now</button>
       `;
 
-      const addToCartButton = document.createElement("button");
-      addToCartButton.textContent = "Add to Cart";
-      addToCartButton.classList.add("button");
-      addToCartButton.addEventListener("click", () => {
-        addToCart(`Product ${index + 1}`, product.image1, product.price, "#");
+      productList.appendChild(productDiv);
+
+      // Adding event listener for wishlist click
+      const wishlistImg = document.getElementById(`wishlist-${product.id}`);
+      wishlistImg.addEventListener("click", () => {
+        console.log(`Adding ${product.name} to wishlist`); // Debugging line
+        addToWishlist(product);
+      });
+    });
+  });
+
+// Function to add to wishlist
+const addToWishlist = (product) => {
+  if (currentUser) {
+    const username = currentUser.email.replace('.', '_'); // Replace '.' to prevent localStorage issues
+    const wishlistKey = `wishlist_${username}`;
+    const wishlistItems = JSON.parse(localStorage.getItem(wishlistKey)) || [];
+
+    console.log("Current wishlist:", wishlistItems);
+
+    const itemExists = wishlistItems.some((item) => item.name === product.name);
+    if (!itemExists) {
+      wishlistItems.push({
+        name: product.name,
+        image: product.image,
+        price: product.price,
       });
 
-      const buyNowButton = document.createElement("button");
-      buyNowButton.textContent = "Buy Now";
-      buyNowButton.classList.add("buttons");
-
-      productDiv.appendChild(addToCartButton);
-      productDiv.appendChild(buyNowButton);
-      productList.appendChild(productDiv);
-    });
-  })
-  .catch(error => {
-    console.error("Error fetching product data:", error);
-  });
-
-// Check login status
-const isUserLoggedIn = () => localStorage.getItem('userLoggedIn') === 'true';
-
-// Add to cart functionality
-function addToCart(name, image, price, link) {
-  if (!isUserLoggedIn()) {
-    alert('You need to be logged in to add items to your cart.');
-    window.location.href = '../../../Assets/pages/html/login.html';
-    return;
+      localStorage.setItem(wishlistKey, JSON.stringify(wishlistItems));
+      alert(`${product.name} added to your wishlist.`);
+      console.log("Updated wishlist:", wishlistItems);
+    } else {
+      alert(`${product.name} is already in your wishlist.`);
+    }
+  } else {
+    alert("You need to be logged in to add items to your wishlist.");
+    console.error("User not logged in, cannot add to wishlist.");
   }
+};
 
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const existingItem = cart.find(item => item.name === name);
+// Expose the addToCart function globally
+window.addToCart = function addToCart(name, price, img) {
+  console.log("addToCart called with:", name, price, img);
+
+  // Get current user's email, or use 'guest' if not logged in
+  const userEmail = currentUser ? currentUser.email.replace('.', '_') : 'guest';
+  
+  // Get cart items from localStorage
+  let cart = JSON.parse(localStorage.getItem(userEmail)) || [];
+
+  // Check if the item already exists in the cart
+  const existingItem = cart.find((item) => item.name === name && item.price === price && item.img === img);
 
   if (existingItem) {
-    alert(`${name} is already in your cart!`);
+    // If the item exists, increase quantity
+    if (existingItem.quantity < 10) {
+      existingItem.quantity += 1;
+      alert('Increased quantity of the item in your cart!');
+    } else {
+      alert('Maximum quantity of 10 reached for this item.');
+    }
   } else {
-    const product = { name, image, price, link, quantity: 1 };
-    cart.push(product);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    alert(`${name} has been added to your cart!`);
-  }
-}
-
-// Login functionality
-function login(username, password) {
-  if (username === 'user' && password === 'password') {
-    localStorage.setItem('userLoggedIn', 'true');
-    alert('Login successful!');
-    window.location.href = './index.html';
-  } else {
-    alert('Invalid login credentials!');
-  }
-}
-
-// Logout functionality
-function logout() {
-  localStorage.removeItem('userLoggedIn');
-  alert('You have been logged out.');
-  window.location.href = './Assets/pages/html/login.html';
-}
-
-// Load cart items in cart.html
-function loadCart() {
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const cartContainer = document.getElementById('cart-container');
-
-  if (!cartContainer) return;
-
-  if (cart.length === 0) {
-    cartContainer.innerHTML = '<p>Your cart is empty!</p>';
-    return;
+    // If the item doesn't exist, add a new entry
+    cart.push({
+      name,
+      price,
+      img,
+      quantity: 1
+    });
+    alert('Product added to cart!');
   }
 
-  cartContainer.innerHTML = '';
-  let totalPrice = 0;
+  // Update cart in localStorage
+  localStorage.setItem(userEmail, JSON.stringify(cart));
 
-  cart.forEach((product, index) => {
-    const productDiv = document.createElement('div');
-    productDiv.classList.add('cart-item');
-    productDiv.innerHTML = `
-      <img src="${product.image}" alt="${product.name}" class="cart-item-image">
-      <div class="cart-item-details">
-        <h3>${product.name}</h3>
-        <p>Price: ${product.price}</p>
-        <p>Quantity: <span id="quantity-${index}">${product.quantity}</span></p>
-      </div>
-    `;
+  console.log("Updated Cart in localStorage:", JSON.parse(localStorage.getItem(userEmail)));
 
-    const removeButton = document.createElement('button');
-    removeButton.textContent = 'Remove';
-    removeButton.addEventListener('click', () => removeFromCart(index));
+  if (!currentUser) {
+    alert('You are not logged in. The item has been added to your cart as a guest.');
+  }
+};
 
-    productDiv.appendChild(removeButton);
-    cartContainer.appendChild(productDiv);
 
-    const priceValue = parseFloat(product.price.replace(/[^0-9.]/g, ''));
-    totalPrice += priceValue * product.quantity;
-  });
-
-  const totalDiv = document.createElement('div');
-  totalDiv.classList.add('cart-total');
-  totalDiv.innerHTML = `<h3>Total: $${totalPrice.toFixed(2)}</h3>`;
-  cartContainer.appendChild(totalDiv);
-}
-
-// Remove item from cart
-function removeFromCart(index) {
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  cart.splice(index, 1);
-  localStorage.setItem('cart', JSON.stringify(cart));
-  loadCart();
-}

@@ -1,42 +1,48 @@
-[
-    {
+
+
+{
+    "products":[
+        {           
         "name": "Chocolate Mould",
-        "image":"./Assets/images/mould_img5.jpeg",
-        "price": 100
+        "image": "./Assets/images/mould_img1.jpg",
+        "link":  "./Assets/pages/html/chocolate-mould_page.html"
         },
         {
          "name": "stand mixers",
-          "image": "./Assets/images/mould_img5.jpeg",
-          "price": 200
+          "image": "./Assets/images/stand_mixers1.jpg",
+          "link":"./Assets/pages/html/stand_mixers.html"
         },
         {
           "name":"Piping bags & Nozzile",
           "image": "./Assets/images/nozzile_img3.jpg",
-          "price": 100
+          "link": "./Assets/pages/html/pipping&nozzile_page.html"
         },
         {
           "name":"Bread & Cake tins",
           "image": "./Assets/images/bread_tin5.jpg",
-          "price": 1500
+          "link": "./Assets/pages/html/Tin.html"
         },
         {
           "name": "Packaging Box",
           "image": "./Assets/images/packaging_box9.jpg",
-          "price": 40
+          "link": "./Assets/pages/html/boxes.html"
         },
         {
           "name": "Ingredients",
           "image": "./Assets/images/maida_img.jpg",
-          "price": 60
+          "link":"./Assets/pages/html/ingredient.html"
         },
         {
           "name": "Cake Toppers",
           "image": "./Assets/images/cake_topper1.jpg",
-          "price": 190
+          "link": "./Assets/pages/html/cakeTopper_page.html"
         },
         {
           "name": "Kitchenware",
           "image": "./Assets/images/proof_ring1.jpg",
-          "price": 310
+          "link": "./Assets/pages/html/kitchenware.html"
         }
-]
+    ]
+}
+
+

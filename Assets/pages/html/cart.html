@@ -3,18 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart</title>
+    <title>Your Cart</title>
     <link rel="stylesheet" href="../../../Assets/pages/CSS/cart.css">
 </head>
 <body>
     <header>
         <h1>Your Cart</h1>
     </header>
-    <main id="cart-container" class="cart-container"></main>
+    <!-- <main id="cart-container" class="cart-container"> -->
+        <!-- Cart items will be dynamically added here by cart.js -->
+         <main id="cart-list" class="cart-container">
+    </main>
     <footer>
         <button onclick="window.location.href='./index.html'">Continue Shopping</button>
     </footer>
-    <script src="../../../Assets/pages/JS/cart.js"></script>
-    <script>loadCart();</script>
+    <!-- <div id="cart-list"></div> This is where cart items will be added -->
+
+    <script type="module" src="../../../Assets/pages/JS/cart.js"></script>
 </body>
 </html>
+>
+
