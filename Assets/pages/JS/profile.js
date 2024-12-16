@@ -1,6 +1,6 @@
 // Firebase Modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import { getAuth, onAuthStateChanged,signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
 // Firebase Configuration
@@ -23,6 +23,8 @@ const db = getFirestore(app);
 const usernameElement = document.getElementById("username");
 const emailElement = document.getElementById("email");
 const wishlistContainer = document.getElementById("wishlist-container");
+const logoutButton = document.getElementById("logout-btn");
+
 
 // Global Username Storage
 let globalUsername = "";
@@ -93,4 +95,18 @@ onAuthStateChanged(auth, (user) => {
         console.warn("No user is signed in.");
         window.location.href = "../../../Assets/pages/html/login.html"; // Redirect to login page
     }
+});
+
+
+logoutButton.addEventListener("click", () => {
+    signOut(auth)
+        .then(() => {
+            console.log("User signed out successfully.");
+            alert("Logged out successfully!");
+            window.location.href = "../../../index.html";
+        })
+        .catch((error) => {
+            console.error("Sign out error:", error.message);
+            alert("Error during logout. Please try again.");
+        });
 });

@@ -79,8 +79,3 @@ form.addEventListener("input", () => {
     if (password.length >= 8) passwordError.textContent = "";
 });
 
-function logout() {
-    localStorage.setItem('userLoggedIn', 'false');
-    alert('You are now logged out.');
-    loadCart(); // Clear the cart display
-}

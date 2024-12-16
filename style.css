@@ -5,7 +5,6 @@
 }
 html{
     overflow-x: hidden;
-    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .header{
@@ -17,6 +16,7 @@ html{
     justify-content: space-around;
     padding: 20px;
     z-index: 1;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 .searchbar{
     width: 200px;

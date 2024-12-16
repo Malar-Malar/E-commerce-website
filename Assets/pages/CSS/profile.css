@@ -4,7 +4,16 @@
 .profile_container{
     display: block;
     text-align: center;
-    background-color: rgb(125, 87, 62);
+    background-color: rgb(126, 81, 51);
+}
+button{
+    margin-left: 1300px;
+    padding: 10px;
+    font-size: 20px;
+    background-color: blanchedalmond;
+    border: none;
+    margin-top: 10px;
+    border-radius: 10px;
 }
 .profile_img{
     height: 80px;
