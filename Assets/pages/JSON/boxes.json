@@ -5,55 +5,55 @@
           "image1": "../../../Assets/images/packaging_box1.jpg",
           "name": "box",
           "image2": "../../../Assets/images/star_rating_img.webp",
-          "price": "$8"
+          "price":  "8"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/packaging_box2.jpg",
             "name": "box",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$12"
+            "price": "12"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/packaging_box3.jpg",
             "name": "box",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$10"
+            "price": "10"
         },{
             "image": "../../../Assets/images/my-wish-list.png",
             "image1":"../../../Assets/images/packaging_box4.jpg",
             "name": "box",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$15"
+            "price": "15"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/packaging_box5.jpg",
             "name": "box",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$20"
+            "price": "20"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/packaging_box6.jpg",
             "name": "box",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$40"
+            "price": "40"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/packaging_box7.jpg",
             "name": "box",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$40"   
+            "price": "40"   
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/packaging_box8.jpg",
             "name": "box",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$30"
+            "price": "30"
         }
         
 

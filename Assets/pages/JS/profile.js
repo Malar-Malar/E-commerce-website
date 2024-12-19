@@ -60,12 +60,11 @@ const fetchUserData = async (user) => {
 };
 
 // Display Wishlist
-const displayWishlist = (username) => {
-    const wishlistKey = `wishlist_${username}`;
-    const wishlistItems = JSON.parse(localStorage.getItem(wishlistKey)) || [];
+// Display Wishlist
+const displayWishlist = (userEmail) => {
+    const wishlistKey = `wishlist_${userEmail}`;
 
-    console.log("Wishlist Key:", wishlistKey);
-    console.log("Wishlist Data:", wishlistItems);
+    const wishlistItems = JSON.parse(localStorage.getItem(wishlistKey)) || [];
 
     wishlistContainer.innerHTML = `<h3>Your Wishlist</h3>`; // Reset container
 
@@ -78,13 +77,23 @@ const displayWishlist = (username) => {
         const itemDiv = document.createElement("div");
         itemDiv.classList.add("wishlist-item");
         itemDiv.innerHTML = `
-            <img src="${item.image1}" alt="${item.name}" style="width: 100px; height: 100px;">
+            <img src="${item.image1 || 'default-image.png'}" alt="${item.name}" style="width: 100px; height: 100px;">
             <p><strong>${item.name}</strong></p>
             <p>Price: ${item.price}</p>
         `;
         wishlistContainer.appendChild(itemDiv);
     });
 };
+
+// Fetch and display the wishlist for logged-in user
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        const userEmail = user.email;
+        displayWishlist(userEmail); // Pass user email to fetch wishlist
+    } else {
+        window.location.href = "../../../Assets/pages/html/login.html"; // Redirect to login page
+    }
+});
 
 // Authentication State Listener
 onAuthStateChanged(auth, (user) => {

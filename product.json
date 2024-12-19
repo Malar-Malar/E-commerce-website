@@ -29,7 +29,7 @@
         },
         {
           "name": "Ingredients",
-          "image": "./Assets/images/maida_img.jpg",
+          "image": "./Assets/images/milk_maid_img.jpg",
           "link":"./Assets/pages/html/ingredient.html"
         },
         {

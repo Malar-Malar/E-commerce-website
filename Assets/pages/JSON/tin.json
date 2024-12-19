@@ -5,55 +5,55 @@
           "image1": "../../../Assets/images/bread_tin2.jpg",
           "name": "tin",
           "image2": "../../../Assets/images/star_rating_img.webp",
-          "price": "$100"
+          "price": "100"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/bread_tin1.jpg",
             "name": "tin",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$159"
+            "price": "159"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/bread_tin3.jpg",
             "name": "tin",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$899"
+            "price": "899"
         },{
             "image": "../../../Assets/images/my-wish-list.png",
             "image1":"../../../Assets/images/bread_tin4.jpg",
             "name": "tin",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$299"
+            "price": "299"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/cake_tin1.jpg",
             "name": "tin",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$250"
+            "price": "250"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/cake_tin2.jpg",
             "name": "tin",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$300"
+            "price": "300"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/cake_tin3.jpg",
             "name": "tin",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$180"   
+            "price": "180"   
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/cake_tin4.jpg",
             "name": "tin",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$600"
+            "price": "600"
         }
         
 

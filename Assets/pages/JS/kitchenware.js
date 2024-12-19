@@ -70,12 +70,10 @@ window.addToCart = function addToCart(name, price, img) {
 
   if (existingItem) {
     // If the item exists, increase quantity
-    if (existingItem.quantity < 10) {
+    if (existingItem.quantity < 1000) {
       existingItem.quantity += 1;
       alert('Increased quantity of the item in your cart!');
-    } else {
-      alert('Maximum quantity of 10 reached for this item.');
-    }
+    } 
   } else {
     // If the item doesn't exist, add a new entry
     cart.push({

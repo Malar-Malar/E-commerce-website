@@ -8,7 +8,7 @@ body {
 
 /* Header */
 header {
-    background-color: #741212;
+    background-color: rgb(74, 35, 35);
     color: white;
     padding: 10px 0;
     text-align: center;
@@ -62,9 +62,7 @@ h1 {
     padding: 20px;
 }
 body{
-    background-image: url(https://img.freepik.com/free-photo/top-view-flour-with-baking-tools-table_23-2148461115.jpg?t=st=1733459278~exp=1733462878~hmac=949225febdc49c3e9176ae614ebd6229c800b85c40c1ee90c7ae6831e2c1782a&w=1480);
-}
-
+    background-image: url()}
 /* Product Container */
 .product-container {
     display: flex;
@@ -136,6 +134,11 @@ body{
 
 .Button:hover, .Buttons:hover {
     background-color: #45A049;
+}
+.home{
+    color: white;
+    margin-right: 1400px;
+    font-size: 25px;
 }
 
 /* Mobile Responsiveness */

@@ -6,111 +6,111 @@
           "image1": "../../../Assets/images/baking_powder.jpg",
           "name": "baking powder",
           "image2": "../../../Assets/images/star_rating_img.webp",
-          "price": "$29"
+          "price": "29"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/baking_soda.jpg",
             "name": "baking soda",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$32"
+            "price": "32"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/brown_sugar.jpg",
             "name": "sugar",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$79"
+            "price": "79"
         },{
             "image": "../../../Assets/images/my-wish-list.png",
             "image1":"../../../Assets/images/flour_img1.jpg",
             "name": "maida",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$39"
+            "price": "39"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/food_colour_img1.jpg",
             "name": "food colour",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$22"
+            "price": "22"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/food_colour_img2.jpg",
             "name": "food colour",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$20"
+            "price": "20"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/food_colour_img3.jpg",
             "name": "food colour",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$25"   
+            "price": "25"   
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/food_colour_img4.jpg",
             "name": "food colour",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$30"
+            "price": "30"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/gluten_img.jpg",
             "name": "gluten",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$299"
+            "price": "299"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/milk_maid_img.jpg",
             "name": "milk maid",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$147"
+            "price": "147"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/oil.jpg",
             "name": "oil",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$60"
+            "price": "60"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/salt_img.jpg",
             "name": "salt",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$19"
+            "price": "19"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/sprinkles_img.jpg",
             "name": "sprinkle",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$300"
+            "price": "300"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/sugar.jpg",
             "name": "sugar",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$29"
+            "price": "29"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/whipping_img.jpg",
             "name": "whipping cream",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$220"
+            "price": "220"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/yeast_img.jpg",
             "name": "yeast",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$300"
+            "price": "300"
         }
         
         

@@ -8,7 +8,7 @@ if (productList) {
         const productDiv = document.createElement("div");
         productDiv.classList.add("product");
         productDiv.innerHTML = `
-            <img src="${product.image}" alt="${product.name}">
+            <img src="${product.image}" alt="${product.name}"  draggable="false">
             <h2>${product.name}</h2>
             <button type="button" onclick="location.href='${product.link}'">Click More Product</button>
         `;

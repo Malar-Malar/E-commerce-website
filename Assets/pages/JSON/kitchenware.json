@@ -39,42 +39,42 @@
             "image1":"../../../Assets/images/palette_knife_img1.jpg",
             "name": "knife",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$300"
+            "price": "300"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/ring-img.jpg",
             "name": "ring",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$329"   
+            "price": "329"   
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/silicon_brush_img1.jpg",
             "name": "brush",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$50"
+            "price": "50"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/spatula_img1.jpg",
             "name": "spatula",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$70"
+            "price": "70"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/whisk_img1.jpg",
             "name": "whisk",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$100"
+            "price": "100"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/wooden_board.jpg",
             "name": "wooden board",
             "image2": "../../../Assets/images/star_rating_img.webp",
-            "price": "$600"
+            "price": "600"
         }
         
 

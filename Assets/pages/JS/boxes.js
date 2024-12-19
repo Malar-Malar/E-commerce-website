@@ -23,10 +23,12 @@ let currentUser = null;
 onAuthStateChanged(auth, (user) => {
   if (user) {
     console.log("User is logged in:", user.email);
-    currentUser = user;  // Set the currentUser variable when the user is logged in
+    currentUser = user;
+    globalUserEmail = user.email.replace('.', '_');  // Set the currentUser variable when the user is logged in
   } else {
     console.log("No user is logged in.");
-    currentUser = null;  // Reset the currentUser variable when the user is logged out
+    currentUser = null;
+    globalUserEmail = "";  // Reset the currentUser variable when the user is logged out
   }
 });
 
@@ -40,8 +42,8 @@ fetch('../../../Assets/pages/json/boxes.json')
       productDiv.classList.add("products");
 
       productDiv.innerHTML = `
-        <img src="${product.image}" alt="wishlist_img" class="Wishlist-img" id="wishlist-${product.id}">
-        <img src="${product.image1}" alt="stand_mixer_img" class="products-images">
+        <img src="${product.image}" alt="wishlist_img" class="Wishlist-img" id="wishlist-${product.id}" draggable="false">
+        <img src="${product.image1}" alt="stand_mixer_img" class="products-images" draggable="false">
         <img src="${product.image2}" alt="rating" class="stars_rating">
         <p>Price: ${product.price}</p> 
         <button type="button" class="button" onclick="addToCart('${product.name}', '${product.price}', '${product.image1}')">Add to Cart</button>
@@ -51,41 +53,58 @@ fetch('../../../Assets/pages/json/boxes.json')
       productList.appendChild(productDiv);
 
       // Adding event listener for wishlist click
-      const wishlistImg = document.getElementById(`wishlist-${product.id}`);
+      const wishlistImg = productDiv.querySelector('.Wishlist-img');
       wishlistImg.addEventListener("click", () => {
-        console.log(`Adding ${product.name} to wishlist`); // Debugging line
-        addToWishlist(product);
+        console.log(`Adding ${product.name} to wishlist`);
+        addToWishlist(product); // Call to add product to wishlist
       });
+      
     });
-  });
+  })
+  .catch((error) => console.error("Error loading product data:", error));
 
 // Function to add to wishlist
+let globalUserEmail = "";
+
 const addToWishlist = (product) => {
-  if (currentUser) {
-    const username = currentUser.email.replace('.', '_'); // Replace '.' to prevent localStorage issues
-    const wishlistKey = `wishlist_${username}`;
-    const wishlistItems = JSON.parse(localStorage.getItem(wishlistKey)) || [];
+  if (!globalUserEmail) {
+      console.error("User email not available. Cannot save to wishlist.");
+      return;
+  }
+  
+  const wishlistKey = `wishlist_${globalUserEmail}`;
+  let wishlist = JSON.parse(localStorage.getItem(wishlistKey)) || [];
 
-    console.log("Current wishlist:", wishlistItems);
+  // Check if item already exists
+  if (!wishlist.some(item => item.name === product.name)) {
+      wishlist.push(product);
+      localStorage.setItem(wishlistKey, JSON.stringify(wishlist));
+      alert("Item added to wishlist!");
+  } else {
+      alert("Item is already in your wishlist!");
+  }
+};
 
-    const itemExists = wishlistItems.some((item) => item.name === product.name);
-    if (!itemExists) {
-      wishlistItems.push({
-        name: product.name,
-        image: product.image,
-        price: product.price,
+// Function to render products and set up click events
+const renderProducts = () => {
+  const container = document.getElementById("products-container");
+
+  productData.forEach(product => {
+      const productDiv = document.createElement("div");
+      productDiv.classList.add("product-item");
+      productDiv.innerHTML = `
+          <img src="${product.image1}" alt="${product.name}" style="width: 100px; height: 100px; cursor: pointer;">
+          <p><strong>${product.name}</strong></p>
+          <p>Price: ${product.price}</p>
+      `;
+
+      // Add click event listener to save item to wishlist
+      productDiv.querySelector("img").addEventListener("click", () => {
+          addToWishlist(product);
       });
 
-      localStorage.setItem(wishlistKey, JSON.stringify(wishlistItems));
-      alert(`${product.name} added to your wishlist.`);
-      console.log("Updated wishlist:", wishlistItems);
-    } else {
-      alert(`${product.name} is already in your wishlist.`);
-    }
-  } else {
-    alert("You need to be logged in to add items to your wishlist.");
-    console.error("User not logged in, cannot add to wishlist.");
-  }
+      container.appendChild(productDiv);
+  });
 };
 
 // Expose the addToCart function globally
@@ -103,12 +122,10 @@ window.addToCart = function addToCart(name, price, img) {
 
   if (existingItem) {
     // If the item exists, increase quantity
-    if (existingItem.quantity < 10) {
+    if (existingItem.quantity <= 100) {
       existingItem.quantity += 1;
       alert('Increased quantity of the item in your cart!');
-    } else {
-      alert('Maximum quantity of 10 reached for this item.');
-    }
+    } 
   } else {
     // If the item doesn't exist, add a new entry
     cart.push({
