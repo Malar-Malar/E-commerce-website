@@ -59,6 +59,11 @@ form.addEventListener("submit", async function (event) {
         emailError.style.color = "red";
         isValid = false;
     }
+    else if(email.length>=255){
+        emailError.textContent="email shouldn't greater than 255";
+        emailError.style.color = "red";
+        isValid = false;
+    }
 
     // Password validation
     if (password.length < 8) {
