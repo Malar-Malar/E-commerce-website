@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Purchase Successful</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+      background-color: rgb(163, 173, 163);
+    }
+    h1 {
+      color: green;
+    }
+    p {
+      font-size: 18px;
+    }
+    .button {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Purchase Successful!</h1>
+  <p id="purchase-details"></p>
+  <p id="customer-details"></p>
+  <button class="button" onclick="goBack()">Go Back to Products</button>
+
+  <script>
+    function goBack() {
+      window.location.href = '../../../index.html'; // Adjust to your product listing page URL
+    }
+
+    // Display purchase and customer details
+    const productDetails = JSON.parse(localStorage.getItem('selectedProduct'));
+    const customerDetails = JSON.parse(localStorage.getItem('recentPurchase'));
+
+    if (productDetails && customerDetails) {
+      document.getElementById('purchase-details').innerHTML = `
+        <strong>Product:</strong> ${productDetails.name}<br>
+        <strong>Price:</strong> ${productDetails.price}
+      `;
+      document.getElementById('customer-details').innerHTML = `
+        <strong>Name:</strong> ${customerDetails.name}<br>
+        <strong>Email:</strong> ${customerDetails.email}<br>
+        <strong>Address:</strong> ${customerDetails.address}<br>
+        <strong>Payment Method:</strong> ${customerDetails.paymentMethod}
+      `;
+    }
+  </script>
+</body>
+</html>

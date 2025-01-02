@@ -1,6 +1,6 @@
 // Firebase Modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getAuth, onAuthStateChanged,signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
 // Firebase Configuration
@@ -24,13 +24,16 @@ const usernameElement = document.getElementById("username");
 const emailElement = document.getElementById("email");
 const wishlistContainer = document.getElementById("wishlist-container");
 const logoutButton = document.getElementById("logout-btn");
+const productList = document.getElementById("product-list");
 
-
-// Global Username Storage
-let globalUsername = "";
+// Normalize Email Function
+function normalizeEmail(email) {
+    return email.replace('.', '_');
+}
 
 // Fetch and Display User Data
 const fetchUserData = async (user) => {
+    console.log("Fetching user data for UID:", user.uid); // Log UID
     try {
         const usersRef = collection(db, "users");
         const q = query(usersRef, where("uid", "==", user.uid));
@@ -39,13 +42,9 @@ const fetchUserData = async (user) => {
         if (!querySnapshot.empty) {
             querySnapshot.forEach((doc) => {
                 const data = doc.data();
+                console.log("Fetched user data:", data); // Log the user data
                 usernameElement.textContent = data.username || "N/A";
                 emailElement.textContent = data.email || "N/A";
-
-                globalUsername = data.username; // Store username globally
-                console.log("Fetched username:", globalUsername);
-
-                displayWishlist(globalUsername); // Load wishlist
             });
         } else {
             console.error("No user data found for UID:", user.uid);
@@ -59,55 +58,59 @@ const fetchUserData = async (user) => {
     }
 };
 
-// Display Wishlist
-// Display Wishlist
+
+// Display Wishlist Items
 const displayWishlist = (userEmail) => {
-    const wishlistKey = `wishlist_${userEmail}`;
+  const wishlistKey = `wishlist_${normalizeEmail(userEmail)}`;
+  const wishlistItems = JSON.parse(localStorage.getItem(wishlistKey)) || [];
 
-    const wishlistItems = JSON.parse(localStorage.getItem(wishlistKey)) || [];
+  wishlistContainer.innerHTML = `<h3>Your Wishlist</h3>`;
 
-    wishlistContainer.innerHTML = `<h3>Your Wishlist</h3>`; // Reset container
+  if (wishlistItems.length === 0) {
+    wishlistContainer.innerHTML += `<p>Your wishlist is empty.</p>`;
+    return;
+  }
 
-    if (wishlistItems.length === 0) {
-        wishlistContainer.innerHTML += `<p>Your wishlist is empty.</p>`;
-        return;
-    }
+  wishlistItems.forEach((item) => {
+    const itemDiv = document.createElement("div");
+    itemDiv.classList.add("wishlist-item");
 
-    wishlistItems.forEach(item => {
-        const itemDiv = document.createElement("div");
-        itemDiv.classList.add("wishlist-item");
-        itemDiv.innerHTML = `
-            <img src="${item.image1 || 'default-image.png'}" alt="${item.name}" style="width: 100px; height: 100px;">
-            <p><strong>${item.name}</strong></p>
-            <p>Price: ${item.price}</p>
-        `;
-        wishlistContainer.appendChild(itemDiv);
-    });
+    // Check if all the required fields (image, name, price, rating) are present before displaying
+    itemDiv.innerHTML = `
+      <img src="${item.image}" alt="${item.name}" class="wishlist-img">
+      <p class="product-name"><strong>${item.name}</strong></p>
+      <p class="product-price">Price: ${item.price}</p>
+      <p class="product-rating">Rating: ${item.rating}</p>
+      <button class="Button">Add to Cart</button>
+      <button type="button" class="Buttons">Buy Now</button>
+    `;
+
+    wishlistContainer.appendChild(itemDiv);
+  });
+
+  console.log("Wishlist Items:", wishlistItems); // Log the wishlist items for debugging
 };
 
-// Fetch and display the wishlist for logged-in user
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        const userEmail = user.email;
-        displayWishlist(userEmail); // Pass user email to fetch wishlist
-    } else {
-        window.location.href = "../../../Assets/pages/html/login.html"; // Redirect to login page
-    }
-});
-
 // Authentication State Listener
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
+    console.log("Auth state changed. User:", user); // Log user state
     if (user) {
-        console.log("User authenticated:", user.uid);
-        fetchUserData(user);
+        const userEmail = user.email.replace('.', '_');
+        console.log("User is signed in. Email:", userEmail);
+        await fetchUserData(user);
+        displayWishlist(user.email);
     } else {
         console.warn("No user is signed in.");
-        window.location.href = "../../../Assets/pages/html/login.html"; // Redirect to login page
+        window.location.href = "../../../Assets/pages/html/login.html"; // Redirect to login
     }
 });
 
 
+
+
+// Logout Functionality
 logoutButton.addEventListener("click", () => {
+    console.log("Logging out user..."); // Log logout attempt
     signOut(auth)
         .then(() => {
             console.log("User signed out successfully.");
@@ -119,3 +122,6 @@ logoutButton.addEventListener("click", () => {
             alert("Error during logout. Please try again.");
         });
 });
+
+// Load products and wishlist
+loadProducts(); 

@@ -48,7 +48,7 @@ fetch('../../../Assets/pages/json/chocolate-mould.json')
                 onclick="addToCart('${product.name}', '${product.price}', '${product.image1}')">
                 Add to Cart
         </button>
-        <button type="button" class="buttons">Buy Now</button>
+         <button type="button" class="buttons" onclick="buyNow('${product.name}', '${product.price}', '${product.image1}')">Buy Now</button>
       `;
 
       productList.appendChild(productDiv);
@@ -93,5 +93,22 @@ window.addToCart = function addToCart(name, price, img) {
   if (!currentUser) {
     alert('You are not logged in. The item has been added to your cart as a guest.');
   }
+};
+
+window.buyNow = function buyNow(name, price, img) {
+  // Get current user's email, or use 'guest' if not logged in
+  const userEmail = currentUser ? currentUser.email.replace('.', '_') : 'guest';
+
+  // Retrieve the user's purchase history from localStorage
+  let purchases = JSON.parse(localStorage.getItem(`purchases_${userEmail}`)) || [];
+
+  // Add the new purchase to the user's history
+  purchases.push({ name, price, img, date: new Date().toISOString() });
+
+  // Save the updated purchase history back to localStorage
+  localStorage.setItem(`purchases_${userEmail}`, JSON.stringify(purchases));
+
+  // Redirect the user to the checkout page
+  window.location.href = '../../../Assets/pages/html/checkout.html';
 };
 

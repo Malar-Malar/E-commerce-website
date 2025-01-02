@@ -25,3 +25,187 @@ p{
     color: white;
     font-size: 20px;
 }
+
+/* General Wishlist Styles
+#wishlist-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  #wishlist-container h3 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  /* Individual Wishlist Item Styles */
+  /* .wishlist-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .wishlist-item img {
+    width: 100px;
+    height: 100px;
+    margin-right: 15px;
+    border-radius: 8px;
+  }
+  
+  .wishlist-item p {
+    margin: 0;
+    color: #333;
+  }
+  
+  .wishlist-item p strong {
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .wishlist-item .price {
+    font-size: 16px;
+    color: #ff5722;
+    font-weight: 600;
+  }
+  
+  .wishlist-item .rating {
+    font-size: 14px;
+    color: #888;
+  } */
+  
+  /* Styling the Empty Wishlist Message */
+  /* #wishlist-container p {
+    color: #888;
+    font-size: 18px;
+  }
+   */
+  /* Style for the Wishlist Item Hover Effect */
+  /* .wishlist-item:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  } */
+  
+  /* Optional: Add a remove button */
+  /* .remove-btn {
+    background-color: #ff5722;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: auto;
+    font-size: 14px;
+  }
+  
+  .remove-btn:hover {
+    background-color: #d84b1b;
+  } */
+
+  /* .Button, .Buttons {
+    background-color: #4CAF50;
+    width: 100px;
+    padding: 5px;
+    border: none;
+    font-size: 16px;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+} */
+
+/* .Button:hover, .Buttons:hover {
+    background-color: #45A049;
+}
+   */ 
+
+   h1 {
+    text-align: center;
+    color: rgb(50, 29, 29);
+    padding: 20px;
+}
+body{
+    background-image: url()}
+/* Product Container */
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;  /* Reduced the gap */
+    margin-bottom: 30px;
+}
+
+/* Product Card */
+.product {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 450px;
+    width: 290px;
+    gap: 10px;  /* Added a little more spacing */
+    background-color: white;
+    border-radius: 10px;
+    transition: transform 0.2s ease;  /* Fixed the transition timing */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+}
+
+.product:hover {
+    transform: scale(1.05);
+}
+
+/* Wishlist Icon */
+.wishlist-img {
+    height: 30px;
+    width: 30px;
+    margin-left: 200px;
+    margin-top: 5px;
+}
+
+/* Product Image */
+.product img.product-image {
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+}
+
+/* Star Rating */
+.product img.star_rating {
+    width: 150px;
+    margin-top: 5px;
+}
+
+/* Product Name & Price */
+.product p {
+    font-size: 18px;  /* Slightly smaller font */
+    color: #333;
+    margin: 0;
+    text-align: center;
+}
+
+/* Button Styling */
+.Button, .Buttons {
+    background-color: #4CAF50;
+    width: 100px;
+    padding: 5px;
+    border: none;
+    font-size: 16px;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.Button:hover, .Buttons:hover {
+    background-color: #45A049;
+}
+.home{
+    color: white;
+    margin-right: 1400px;
+    font-size: 25px;
+}

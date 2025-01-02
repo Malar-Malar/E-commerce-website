@@ -1,3 +1,4 @@
+// Firebase Modules
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
@@ -13,138 +14,149 @@ const firebaseConfig = {
   measurementId: "G-KEVGH6JRX7",
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Global variable to track the current user
+// Global variables
 let currentUser = null;
+let globalUserEmail = "";
+
+// Normalize email function
+function normalizeEmail(email) {
+  return email.replace('.', '_');
+}
 
 // Listen for authentication state changes
 onAuthStateChanged(auth, (user) => {
   if (user) {
     console.log("User is logged in:", user.email);
     currentUser = user;
-    globalUserEmail = user.email.replace('.', '_');  // Set the currentUser variable when the user is logged in
+    globalUserEmail = user.email.replace('.', '_'); // Normalize email for use as a key
+    loadProducts(); // Load products after login
   } else {
     console.log("No user is logged in.");
     currentUser = null;
-    globalUserEmail = "";  // Reset the currentUser variable when the user is logged out
+    globalUserEmail = "guest"; // Use 'guest' for non-authenticated users
+    loadProducts(); // Load products even if the user is not logged in
   }
 });
 
-fetch('../../../Assets/pages/json/boxes.json')
-  .then((response) => response.json())
-  .then((jsonData) => {
-    const productList = document.getElementById("product-list");
+// Fetch product data and render products
+function loadProducts() {
+  fetch('../../../Assets/pages/json/boxes.json')
+    .then((response) => response.json())
+    .then((jsonData) => {
+      const productList = document.getElementById("product-list");
 
-    jsonData.products.forEach((product) => {
-      const productDiv = document.createElement("div");
-      productDiv.classList.add("products");
+      jsonData.products.forEach((product) => {
+        const productDiv = document.createElement("div");
+        productDiv.classList.add("products");
 
-      productDiv.innerHTML = `
-        <img src="${product.image}" alt="wishlist_img" class="Wishlist-img" id="wishlist-${product.id}" draggable="false">
-        <img src="${product.image1}" alt="stand_mixer_img" class="products-images" draggable="false">
-        <img src="${product.image2}" alt="rating" class="stars_rating">
-        <p>Price: ${product.price}</p> 
-        <button type="button" class="button" onclick="addToCart('${product.name}', '${product.price}', '${product.image1}')">Add to Cart</button>
-        <button type="button" class="buttons">Buy Now</button>
-      `;
+        productDiv.innerHTML = `
+          <img src="${product.image}" alt="wishlist_img" class="Wishlist-img" id="wishlist-${product.id}" 
+               data-name="${product.name}" data-price="${product.price}" data-img="${product.image1}" draggable="false">
+          <img src="${product.image1}" alt="stand_mixer_img" class="products-images" draggable="false">
+          <p>${product.name}</p>
+          <img src="${product.image2}" alt="rating" class="stars_rating">
+          <p>Price: ${product.price}</p> 
+          <button type="button" class="button" onclick="addToCart('${product.name}', '${product.price}', '${product.image1}')">Add to Cart</button>
+          <button type="button" class="buttons" onclick="buyNow('${product.name}', '${product.price}', '${product.image1}')">Buy Now</button>
+        `;
 
-      productList.appendChild(productDiv);
-
-      // Adding event listener for wishlist click
-      const wishlistImg = productDiv.querySelector('.Wishlist-img');
-      wishlistImg.addEventListener("click", () => {
-        console.log(`Adding ${product.name} to wishlist`);
-        addToWishlist(product); // Call to add product to wishlist
+        productList.appendChild(productDiv);
       });
-      
+
+      // Attach event listeners for wishlist functionality
+      document.querySelectorAll(".Wishlist-img").forEach((wishlistImg) => {
+        wishlistImg.addEventListener("click", (event) => {
+          const { name, price, img } = event.target.dataset;
+          toggleWishlistItem(name, price, img);
+        });
+      });
     });
-  })
-  .catch((error) => console.error("Error loading product data:", error));
+}
 
-// Function to add to wishlist
-let globalUserEmail = "";
-
-const addToWishlist = (product) => {
-  if (!globalUserEmail) {
-      console.error("User email not available. Cannot save to wishlist.");
-      return;
-  }
-  
-  const wishlistKey = `wishlist_${globalUserEmail}`;
-  let wishlist = JSON.parse(localStorage.getItem(wishlistKey)) || [];
-
-  // Check if item already exists
-  if (!wishlist.some(item => item.name === product.name)) {
-      wishlist.push(product);
-      localStorage.setItem(wishlistKey, JSON.stringify(wishlist));
-      alert("Item added to wishlist!");
-  } else {
-      alert("Item is already in your wishlist!");
-  }
-};
-
-// Function to render products and set up click events
-const renderProducts = () => {
-  const container = document.getElementById("products-container");
-
-  productData.forEach(product => {
-      const productDiv = document.createElement("div");
-      productDiv.classList.add("product-item");
-      productDiv.innerHTML = `
-          <img src="${product.image1}" alt="${product.name}" style="width: 100px; height: 100px; cursor: pointer;">
-          <p><strong>${product.name}</strong></p>
-          <p>Price: ${product.price}</p>
-      `;
-
-      // Add click event listener to save item to wishlist
-      productDiv.querySelector("img").addEventListener("click", () => {
-          addToWishlist(product);
-      });
-
-      container.appendChild(productDiv);
-  });
-};
-
-// Expose the addToCart function globally
+// Function to add items to the cart
 window.addToCart = function addToCart(name, price, img) {
-  console.log("addToCart called with:", name, price, img);
+  const userEmail = globalUserEmail;
 
-  // Get current user's email, or use 'guest' if not logged in
-  const userEmail = currentUser ? currentUser.email.replace('.', '_') : 'guest';
-  
-  // Get cart items from localStorage
   let cart = JSON.parse(localStorage.getItem(userEmail)) || [];
 
-  // Check if the item already exists in the cart
-  const existingItem = cart.find((item) => item.name === name && item.price === price && item.img === img);
+  const existingItem = cart.find((item) => item.name === name && item.price === price);
 
   if (existingItem) {
-    // If the item exists, increase quantity
-    if (existingItem.quantity <= 100) {
-      existingItem.quantity += 1;
-      alert('Increased quantity of the item in your cart!');
-    } 
+    existingItem.quantity += 1;
+    alert('Increased quantity of the item in your cart!');
   } else {
-    // If the item doesn't exist, add a new entry
-    cart.push({
-      name,
-      price,
-      img,
-      quantity: 1
-    });
+    cart.push({ name, price, img, quantity: 1 });
     alert('Product added to cart!');
   }
 
-  // Update cart in localStorage
   localStorage.setItem(userEmail, JSON.stringify(cart));
+};
 
-  console.log("Updated Cart in localStorage:", JSON.parse(localStorage.getItem(userEmail)));
 
-  if (!currentUser) {
-    alert('You are not logged in. The item has been added to your cart as a guest.');
+// Function to add/remove items to the wishlist and update the UI
+const toggleWishlistItem = (name, price, image = "N/A") => {
+  const userEmail = auth.currentUser ? auth.currentUser.email : "guest";
+  console.log("Toggling wishlist item:", name, price, userEmail); // Log wishlist toggle
+  
+  // Normalize email to handle it as a unique key
+  const wishlistKey = `wishlist_${normalizeEmail(userEmail)}`;
+  let wishlistItems = JSON.parse(localStorage.getItem(wishlistKey)) || [];
+
+  // Find the index of the item in the wishlist
+  const existingIndex = wishlistItems.findIndex((item) => item.name === name && item.price === price);
+
+  const wishlistImg = document.querySelector(`img[data-name="${name}"][data-price="${price}"]`);
+
+  if (existingIndex > -1) {
+    // Remove the item from the wishlist if it exists
+    wishlistItems.splice(existingIndex, 1); 
+    console.log(`${name} removed from wishlist.`);
+    alert(`${name} removed from your wishlist.`);
+
+    
+  } else {
+    // Add the item to the wishlist
+    wishlistItems.push({ name, price, image });
+    console.log(`${name} added to wishlist.`);
+    alert(`${name} added to your wishlist!`);
+
+   
   }
+
+  // Save the updated wishlist to local storage
+  localStorage.setItem(wishlistKey, JSON.stringify(wishlistItems));
+
+  // Call displayWishlist to update the UI with the new wishlist items
+  displayWishlist(userEmail); 
+};
+
+// Function to handle Buy Now functionality
+window.buyNow = function buyNow(name, price, img) {
+  const userEmail = globalUserEmail;
+
+  let purchases = JSON.parse(localStorage.getItem(`purchases_${userEmail}`)) || [];
+  purchases.push({ name, price, img, date: new Date().toISOString() });
+
+  localStorage.setItem(`purchases_${userEmail}`, JSON.stringify(purchases));
+
+  window.location.href = '../../../Assets/pages/html/checkout.html';
+};
+
+
+// Function to handle Buy Now functionality
+window.buyNow = function buyNow(name, price, img) {
+  const userEmail = globalUserEmail;
+
+  let purchases = JSON.parse(localStorage.getItem(`purchases_${userEmail}`)) || [];
+  purchases.push({ name, price, img, date: new Date().toISOString() });
+
+  localStorage.setItem(`purchases_${userEmail}`, JSON.stringify(purchases));
+
+  window.location.href = '../../../Assets/pages/html/checkout.html';
 };
 
 

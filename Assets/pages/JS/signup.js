@@ -54,7 +54,7 @@ form.addEventListener("submit", async function (event) {
     }
 
     // Email validation
-    if (!emailPattern.test(email) || email.includes("..") || email.includes("@@") || email.length >= 60 || email.includes(" ")) {
+    if (!emailPattern.test(email) || email.includes("..") || email.includes("@@") || email.length >= 60 || email.includes(" ")||email.includes("gmailgmail")||email.includes(".com.com")||email.includes("comcom")) {
         emailError.textContent = "Please enter a valid email address.";
         emailError.style.color = "red";
         isValid = false;

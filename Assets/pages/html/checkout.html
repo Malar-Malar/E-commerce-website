@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+    }
+
+    .checkout-container {
+      max-width: 600px;
+      margin: 50px auto;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px 30px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2em;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #555;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    textarea {
+      resize: none;
+      height: 100px;
+    }
+
+    .button {
+      display: block;
+      width: 100%;
+      padding: 10px 20px;
+      font-size: 18px;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .button:hover {
+      background-color: #0056b3;
+    }
+
+    .form-footer {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .form-footer a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .form-footer a:hover {
+      text-decoration: underline;
+    }
+    #emailError {
+      font-size: 14px;
+      margin-top: 5px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="checkout-container">
+    <h1>Checkout</h1>
+    <form id="checkout-form">
+      <div class="form-group">
+        <label for="customer-name">Full Name:</label>
+        <input type="text" id="customer-name" placeholder="Enter your name" required>
+      </div>
+      <div class="form-group">
+        <label for="customer-email">Email Address:</label>
+        <input type="email" id="customer-email" placeholder="Enter your email" required>
+        <span id="emailError"></span>
+      </div>
+      <div class="form-group">
+        <label for="customer-address">Shipping Address:</label>
+        <textarea id="customer-address" placeholder="Enter your full address" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="customer-country">Country:</label>
+        <select id="customer-country" required>
+          <option value="" disabled hidden>Select Your Country</option>
+          <option value="India">India</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="customer-state">State:</label>
+        <select id="customer-state" required>
+          <option value="" disabled hidden>Select Your State</option>
+          <option value="Tamil Nadu">Tamil Nadu</option>
+          <option value="Kerala">Kerala</option>
+          <option value="Karnataka">Karnataka</option>
+          <option value="Maharashtra">Maharashtra</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="payment-method">Payment Method:</label>
+        <select id="payment-method" required>
+          <option value="" disabled hidden>Select Payment Method</option>
+          <option value="credit-card">Credit Card</option>
+          <option value="debit-card">Debit Card</option>
+          <option value="paypal">cash on delivery</option>
+        </select>
+      </div>
+      <button type="submit" class="button">Complete Purchase</button>
+    </form>
+    <div class="form-footer">
+      <p><a href="../../../index.html">Go back to Products</a></p>
+    </div>
+  </div>
+
+  <script src="../../../Assets/pages/JS/checkout.js"></script>
+</body>
+</html>
