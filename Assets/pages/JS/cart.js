@@ -38,21 +38,33 @@ window.onload = function () {
 
     // Populate the cart list
     const cartList = document.getElementById("cart-list");
+    let totalAmount = 0; // Initialize total amount
 
     cart.forEach((item, index) => {
       const cartItemDiv = document.createElement("div");
       cartItemDiv.classList.add("cart-item");
+
+      // Calculate total price for each item
+      const itemTotal = parseFloat(item.price) * item.quantity;
+      totalAmount += itemTotal; // Add to the total amount
 
       cartItemDiv.innerHTML = `
         <img src="${item.img}" alt="${item.name}" class="cart-item-img">
         <p>Name: ${item.name}</p>
         <p>Price: ${item.price}</p>
         <p>Quantity: ${item.quantity}</p>
+        <p>Total: ${itemTotal.toFixed(2)}</p>
         <button onclick="removeFromCart(${index})" class="remove" >Remove</button>
       `;
 
       cartList.appendChild(cartItemDiv);
     });
+
+    // Display the total amount
+    const totalAmountDiv = document.createElement("div");
+    totalAmountDiv.classList.add("total-amount");
+    totalAmountDiv.innerHTML = `<h3>Total Amount: ${totalAmount.toFixed(2)}</h3>`;
+    cartList.appendChild(totalAmountDiv);
   });
 };
 

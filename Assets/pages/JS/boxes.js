@@ -97,11 +97,19 @@ window.addToCart = function addToCart(name, price, img) {
 };
 
 
-// Function to add/remove items to the wishlist and update the UI
 const toggleWishlistItem = (name, price, image = "N/A") => {
-  const userEmail = auth.currentUser ? auth.currentUser.email : "guest";
+  const user = auth.currentUser;
+
+  // Redirect to login if user is not logged in
+  if (!user) {
+    alert("Please log in to use the wishlist feature.");
+    window.location.href = "../../../Assets/pages/html/login.html";
+    return;
+  }
+
+  const userEmail = user.email;
   console.log("Toggling wishlist item:", name, price, userEmail); // Log wishlist toggle
-  
+
   // Normalize email to handle it as a unique key
   const wishlistKey = `wishlist_${normalizeEmail(userEmail)}`;
   let wishlistItems = JSON.parse(localStorage.getItem(wishlistKey)) || [];
@@ -113,39 +121,52 @@ const toggleWishlistItem = (name, price, image = "N/A") => {
 
   if (existingIndex > -1) {
     // Remove the item from the wishlist if it exists
-    wishlistItems.splice(existingIndex, 1); 
+    wishlistItems.splice(existingIndex, 1);
     console.log(`${name} removed from wishlist.`);
     alert(`${name} removed from your wishlist.`);
-
-    
   } else {
     // Add the item to the wishlist
     wishlistItems.push({ name, price, image });
     console.log(`${name} added to wishlist.`);
     alert(`${name} added to your wishlist!`);
-
-   
   }
 
   // Save the updated wishlist to local storage
   localStorage.setItem(wishlistKey, JSON.stringify(wishlistItems));
 
   // Call displayWishlist to update the UI with the new wishlist items
-  displayWishlist(userEmail); 
+  displayWishlist(userEmail);
 };
 
-// Function to handle Buy Now functionality
+
 window.buyNow = function buyNow(name, price, img) {
-  const userEmail = globalUserEmail;
+  const user = auth.currentUser;
 
+  // Check if the user is logged in
+  if (!user) {
+    alert("You need to log in to make a purchase.");
+    console.log("User not logged in, redirecting to login page...");
+    window.location.href = "../../../Assets/pages/html/login.html";
+    return; // Stop further execution
+  }
+
+  console.log("User is logged in. Proceeding to add purchase...");
+
+  // User is logged in, proceed with Buy Now functionality
+  const userEmail = user.email.replace('.', '_'); // Normalize email
   let purchases = JSON.parse(localStorage.getItem(`purchases_${userEmail}`)) || [];
-  purchases.push({ name, price, img, date: new Date().toISOString() });
 
+  purchases.push({
+    name: name,
+    price: price,
+    img: img,
+    date: new Date().toISOString(),
+  });
+
+  // Save updated purchases to localStorage
   localStorage.setItem(`purchases_${userEmail}`, JSON.stringify(purchases));
+  console.log("Purchase added to localStorage:", purchases);
 
-  window.location.href = '../../../Assets/pages/html/checkout.html';
+  // Redirect to checkout page
+  window.location.href = "../../../Assets/pages/html/checkout.html";
 };
-
-
-
-

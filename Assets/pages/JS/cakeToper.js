@@ -102,20 +102,34 @@ window.addToCart = function addToCart(name, price, img) {
 };
 
 window.buyNow = function buyNow(name, price, img) {
-  // Get current user's email, or use 'guest' if not logged in
-  const userEmail = currentUser ? currentUser.email.replace('.', '_') : 'guest';
+  const user = auth.currentUser;
 
-  // Retrieve the user's purchase history from localStorage
+  // Check if the user is logged in
+  if (!user) {
+    alert("You need to log in to make a purchase.");
+    console.log("User not logged in, redirecting to login page...");
+    window.location.href = "../../../Assets/pages/html/login.html";
+    return; // Stop further execution
+  }
+
+  console.log("User is logged in. Proceeding to add purchase...");
+
+  // User is logged in, proceed with Buy Now functionality
+  const userEmail = user.email.replace('.', '_'); // Normalize email
   let purchases = JSON.parse(localStorage.getItem(`purchases_${userEmail}`)) || [];
 
-  // Add the new purchase to the user's history
-  purchases.push({ name, price, img, date: new Date().toISOString() });
+  purchases.push({
+    name: name,
+    price: price,
+    img: img,
+    date: new Date().toISOString(),
+  });
 
-  // Save the updated purchase history back to localStorage
+  // Save updated purchases to localStorage
   localStorage.setItem(`purchases_${userEmail}`, JSON.stringify(purchases));
+  console.log("Purchase added to localStorage:", purchases);
 
-  // Redirect the user to the checkout page
-  window.location.href = '../../../Assets/pages/html/checkout.html';
+  // Redirect to checkout page
+  window.location.href = "../../../Assets/pages/html/checkout.html";
 };
-
 
