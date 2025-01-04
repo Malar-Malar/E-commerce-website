@@ -147,16 +147,5 @@ window.buyNow = function buyNow(name, price, img) {
 };
 
 
-// Function to handle Buy Now functionality
-window.buyNow = function buyNow(name, price, img) {
-  const userEmail = globalUserEmail;
-
-  let purchases = JSON.parse(localStorage.getItem(`purchases_${userEmail}`)) || [];
-  purchases.push({ name, price, img, date: new Date().toISOString() });
-
-  localStorage.setItem(`purchases_${userEmail}`, JSON.stringify(purchases));
-
-  window.location.href = '../../../Assets/pages/html/checkout.html';
-};
 
 

@@ -121,7 +121,7 @@ body{
 }
 
 /* Button Styling */
-.Button, .Buttons {
+.Button, .btn {
     background-color: #4CAF50;
     width: 100px;
     padding: 5px;
@@ -132,7 +132,7 @@ body{
     cursor: pointer;
 }
 
-.Button:hover, .Buttons:hover {
+.Button:hover, .btn:hover {
     background-color: #45A049;
 }
 .home{

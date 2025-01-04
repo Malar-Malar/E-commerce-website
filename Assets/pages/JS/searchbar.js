@@ -100,7 +100,7 @@ function displayProducts(products) {
             <img class="star_rating" src="${image2}" alt="Star Rating">
             <p class="price">${price}</p>
             <button class="Button" onclick="addToCart('${product.name}', '${product.price}', '${product.image1}')">Add to Cart</button>
-             <button type="button" class="buttons" onclick="buyNow('${product.name}', '${product.price}', '${product.image1}')">Buy Now</button>
+             <button type="button" class="btn" onclick="buyNow('${product.name}', '${product.price}', '${product.image1}')">Buy Now</button>
         `;
 
         itemsContainer.appendChild(productDiv);

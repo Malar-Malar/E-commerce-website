@@ -52,32 +52,36 @@ form.addEventListener("submit", async function (event) {
         usernameError.style.color = "red";
         isValid = false;
     }
-
-    // Email validation
-    if (!emailPattern.test(email) || email.includes("..") || email.includes("@@") || email.length >= 60 || email.includes(" ")||email.includes("gmailgmail")||email.includes(".com.com")||email.includes("comcom")) {
-        emailError.textContent = "Please enter a valid email address.";
-        emailError.style.color = "red";
-        isValid = false;
-    }
-    else if(email.length>=255){
-        emailError.textContent="email shouldn't greater than 255";
-        emailError.style.color = "red";
-        isValid = false;
+    if(username.length>255){
+        usernameError.textContent="username shouldn't be greater than 255 characters.";
+        usernameError.style.color="red";
+        isValid=false;
     }
 
-    // Password validation
-    if (password.length < 8) {
-        passwordError.textContent = "Password must be at least 8 characters.";
-        passwordError.style.color = "red";
-        isValid = false;
-    }
+    
+    
 
-    // Confirm password validation
-    if (password !== confirmPassword) {
-        confirmPasswordError.textContent = "Passwords do not match.";
-        confirmPasswordError.style.color = "red";
-        isValid = false;
-    }
+// Check email length
+if (email.length > 255) {
+    emailError.textContent = "Email shouldn't be greater than 255 characters.";
+    emailError.style.color = "red";
+    isValid = false;
+}
+
+// Validate email format
+if (!emailPattern.test(email)) {
+    emailError.textContent = "Please enter a valid email address.";
+    emailError.style.color = "red";
+    isValid = false;
+}
+
+// Check for double periods, double @, or forbidden patterns
+if (email.includes("..") || email.includes("@@") || email.includes(" ") || email.includes("gmailgmail") || email.includes(".com.com") || email.includes("comcom")) {
+    emailError.textContent = "Please enter a valid email address.";
+    emailError.style.color = "red";
+    isValid = false;
+}
+
 
     // If all fields are valid, attempt to create the user
     if (isValid) {

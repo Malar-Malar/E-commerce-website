@@ -59,36 +59,40 @@ const fetchUserData = async (user) => {
 };
 
 
-// Display Wishlist Items
 const displayWishlist = (userEmail) => {
-  const wishlistKey = `wishlist_${normalizeEmail(userEmail)}`;
-  const wishlistItems = JSON.parse(localStorage.getItem(wishlistKey)) || [];
+    const wishlistKey = `wishlist_${normalizeEmail(userEmail)}`;
+    const wishlistItems = JSON.parse(localStorage.getItem(wishlistKey)) || [];
 
-  wishlistContainer.innerHTML = `<h3>Your Wishlist</h3>`;
+    wishlistContainer.innerHTML = `<h3>Your Wishlist</h3>`;
 
-  if (wishlistItems.length === 0) {
-    wishlistContainer.innerHTML += `<p>Your wishlist is empty.</p>`;
-    return;
-  }
+    if (wishlistItems.length === 0) {
+        wishlistContainer.innerHTML += `<p>Your wishlist is empty.</p>`;
+        return;
+    }
 
-  wishlistItems.forEach((item) => {
-    const itemDiv = document.createElement("div");
-    itemDiv.classList.add("wishlist-item");
+    wishlistItems.forEach((item) => {
+        const itemDiv = document.createElement("div");
+        itemDiv.classList.add("wishlist-item");
 
-    // Check if all the required fields (image, name, price, rating) are present before displaying
-    itemDiv.innerHTML = `
-      <img src="${item.image}" alt="${item.name}" class="wishlist-img">
-      <p class="product-name"><strong>${item.name}</strong></p>
-      <p class="product-price">Price: ${item.price}</p>
-      <p class="product-rating">Rating: ${item.rating}</p>
-      <button class="Button">Add to Cart</button>
-      <button type="button" class="Buttons">Buy Now</button>
-    `;
+        // Check if all the required fields (name, price, image, rating) exist before displaying
+        if (!item.name || !item.price) {
+            console.warn("Invalid item found in wishlist:", item);
+            return; // Skip invalid items
+        }
 
-    wishlistContainer.appendChild(itemDiv);
-  });
+        itemDiv.innerHTML = `
+            <img src="${item.image || 'default_image.jpg'}" alt="${item.name}" class="wishlist-img">
+            <p class="product-name"><strong>${item.name}</strong></p>
+            <p class="product-price">Price: ${item.price}</p>
+            
+            <button class="Button">Add to Cart</button>
+            <button type="button" class="Buttons">Buy Now</button>
+        `;
 
-  console.log("Wishlist Items:", wishlistItems); // Log the wishlist items for debugging
+        wishlistContainer.appendChild(itemDiv);
+    });
+
+    console.log("Wishlist Items:", wishlistItems); // Log the wishlist items for debugging
 };
 
 // Authentication State Listener
