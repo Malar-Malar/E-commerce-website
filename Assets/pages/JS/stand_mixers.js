@@ -1,3 +1,4 @@
+// Firebase Modules
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
@@ -13,87 +14,121 @@ const firebaseConfig = {
   measurementId: "G-KEVGH6JRX7",
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Global variable to track the current user
+// Global variables
 let currentUser = null;
+let globalUserEmail = "";
+
+// Normalize email function
+function normalizeEmail(email) {
+  return email.replace('.', '_');
+}
 
 // Listen for authentication state changes
 onAuthStateChanged(auth, (user) => {
   if (user) {
     console.log("User is logged in:", user.email);
-    currentUser = user;  // Set the currentUser variable when the user is logged in
+    currentUser = user;
+    globalUserEmail = user.email.replace('.', '_'); // Normalize email for use as a key
+    loadProducts(); // Load products after login
   } else {
     console.log("No user is logged in.");
-    currentUser = null;  // Reset the currentUser variable when the user is logged out
+    currentUser = null;
+    globalUserEmail = "guest"; // Use 'guest' for non-authenticated users
+    loadProducts(); // Load products even if the user is not logged in
   }
 });
 
-fetch('../../../Assets/pages/json/stand_mixers.json')
-  .then((response) => response.json())
-  .then((jsonData) => {
-    const productList = document.getElementById("product-list");
+// Fetch product data and render products
+function loadProducts() {
+  fetch('../../../Assets/pages/json/stand_mixers.json')
+    .then((response) => response.json())
+    .then((jsonData) => {
+      const productList = document.getElementById("product-list");
 
-    jsonData.products.forEach((product) => {
-      const productDiv = document.createElement("div");
-      productDiv.classList.add("products");
+      jsonData.products.forEach((product) => {
+        const productDiv = document.createElement("div");
+        productDiv.classList.add("products");
 
-      productDiv.innerHTML = `
-        <img src="${product.image}" alt="wishlist_img" class="Wishlist-img">
-        <img src="${product.image1}" alt="stand_mixer_img" class="products-images">
-        <img src="${product.image2}" alt="rating" class="stars_rating">
-        <p>Price: ${product.price}</p> 
-        <button type="button" class="button" 
-                onclick="addToCart('${product.name}', '${product.price}', '${product.image1}')">
-                Add to Cart
-        </button>
-         <button type="button" class="buttons" onclick="buyNow('${product.name}', '${product.price}', '${product.image1}')">Buy Now</button>
-      `;
+        productDiv.innerHTML = `
+          <img src="${product.image}" alt="wishlist_img" class="Wishlist-img" id="wishlist-${product.id}" 
+               data-name="${product.name}" data-price="${product.price}" data-img="${product.image1}" draggable="false">
+          <img src="${product.image1}" alt="stand_mixer_img" class="products-images" draggable="false">
+          <p>${product.name}</p>
+          <img src="${product.image2}" alt="rating" class="stars_rating">
+          <p>Price: ${product.price}</p> 
+          <button type="button" class="button" onclick="addToCart('${product.name}', '${product.price}', '${product.image1}')">Add to Cart</button>
+          <button type="button" class="buttons" onclick="buyNow('${product.name}', '${product.price}', '${product.image1}')">Buy Now</button>
+        `;
 
-      productList.appendChild(productDiv);
+        productList.appendChild(productDiv);
+      });
+
+      // Attach event listeners for wishlist functionality
+      document.querySelectorAll(".Wishlist-img").forEach((wishlistImg) => {
+        wishlistImg.addEventListener("click", (event) => {
+          const { name, price, img } = event.target.dataset;
+          toggleWishlistItem(name, price, img);
+        });
+      });
+      
     });
-  });
+}
 
-// Expose the addToCart function globally
+// Function to add items to the cart
 window.addToCart = function addToCart(name, price, img) {
-  console.log("addToCart called with:", name, price, img);
+  const userEmail = globalUserEmail;
 
-  // Get current user's email, or use 'guest' if not logged in
-  const userEmail = currentUser ? currentUser.email.replace('.', '_') : 'guest';
-  
-  // Get cart items from localStorage
   let cart = JSON.parse(localStorage.getItem(userEmail)) || [];
 
-  // Check if the item already exists in the cart
-  const existingItem = cart.find((item) => item.name === name && item.price === price && item.img === img);
+  const existingItem = cart.find((item) => item.name === name && item.price === price);
 
   if (existingItem) {
-    // If the item exists, increase quantity
-    if (existingItem.quantity <= 100) {
-      existingItem.quantity += 1;
-      alert('Increased quantity of the item in your cart!');
-    } 
+    existingItem.quantity += 1;
+    alert('Increased quantity of the item in your cart!');
   } else {
-    // If the item doesn't exist, add a new entry
-    cart.push({
-      name,
-      price,
-      img,
-      quantity: 1
-    });
+    cart.push({ name, price, img, quantity: 1 });
     alert('Product added to cart!');
   }
 
-  // Update cart in localStorage
   localStorage.setItem(userEmail, JSON.stringify(cart));
-
-  console.log("Updated Cart in localStorage:", JSON.parse(localStorage.getItem(userEmail)));
-
-  if (!currentUser) {
-    alert('You are not logged in. The item has been added to your cart as a guest.');
-  }
 };
+
+
+const toggleWishlistItem = (name, price, image = "N/A") => {
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert("Please log in to use the wishlist feature.");
+    window.location.href = "../../../Assets/pages/html/login.html";
+    return;
+  }
+
+  const userEmail = normalizeEmail(user.email); // Normalize email for storage
+  const wishlistKey = `wishlist_${userEmail}`;
+  let wishlistItems = JSON.parse(localStorage.getItem(wishlistKey)) || [];
+
+  const existingIndex = wishlistItems.findIndex(
+    (item) => item.name === name && item.price === price
+  );
+
+  if (existingIndex > -1) {
+    // Remove the item if it already exists
+    wishlistItems.splice(existingIndex, 1);
+    alert(`${name} removed from your wishlist.`);
+  } else {
+    // Add the item if it doesn't exist
+    wishlistItems.push({ name, price, image });
+    alert(`${name} added to your wishlist!`);
+  }
+
+  // Save updated wishlist to localStorage
+  localStorage.setItem(wishlistKey, JSON.stringify(wishlistItems));
+};
+
 
 window.buyNow = function buyNow(name, price, img) {
   const user = auth.currentUser;
@@ -126,4 +161,3 @@ window.buyNow = function buyNow(name, price, img) {
   // Redirect to checkout page
   window.location.href = "../../../Assets/pages/html/checkout.html";
 };
-

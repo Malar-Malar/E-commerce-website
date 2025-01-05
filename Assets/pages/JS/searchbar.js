@@ -41,7 +41,7 @@ const jsonFiles = [
     '../../../Assets/pages/JSON/chocolate-mould.json',
     '../../../Assets/pages/JSON/ingredient.json',
     '../../../Assets/pages/JSON/kitchenware.json',
-    '../../../Assets/pages/JSON/piping&nozzile.json',
+    '../../../Assets/pages/JSON/pipingNozzile.json',
     '../../../Assets/pages/JSON/stand_mixers.json',
     '../../../Assets/pages/JSON/tin.json'
 ];

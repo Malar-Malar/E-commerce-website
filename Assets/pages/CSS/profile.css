@@ -1,54 +1,68 @@
-/* Universal Reset */
+
 * {
-    margin: auto;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Remove default margins from the body and html */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
 
 /* Profile Container */
 .profile_container {
     display: block;
     text-align: center;
-    background-color: rgb(126, 81, 51);
+    background-color: rgb(126, 81, 51); 
     padding: 20px;
     border-radius: 10px;
-    margin-top: 20px;
+    
 }
 
 /* Logout Button */
 button {
-    margin-left: 1300px;
+    position: absolute; /* Place the button at a fixed location */
+    top: 10px;
+    right: 20px;
     padding: 10px;
     font-size: 20px;
     background-color: blanchedalmond;
     border: none;
-    margin-top: 10px;
     border-radius: 10px;
     cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
 }
 
 button:hover {
-    background-color: #d1b08f;
+    background-color: #d1b08f; /* Darker shade for hover effect */
 }
 
 /* Home Link */
 .home {
+    position: absolute; /* Place the link at a fixed location */
+    top: 10px;
+    left: 20px;
     color: white;
-    margin-right: 1400px;
     font-size: 25px;
     text-decoration: none;
     font-weight: bold;
+    transition: text-decoration 0.3s ease; /* Smooth transition for hover effect */
 }
 
 .home:hover {
-    text-decoration: underline;
+    text-decoration: underline; /* Underline on hover */
 }
 
 /* Profile Image */
 .profile_img {
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%; /* Circle shape */
     margin-bottom: 15px;
-    border: 2px solid white;
+    border: 2px solid white; /* White border for better visibility */
 }
 
 /* Profile Information */
@@ -56,98 +70,4 @@ p {
     padding: 10px;
     color: white;
     font-size: 20px;
-}
-
-/* Wishlist Section */
-#wishlist-container {
-    margin-top: 40px;
-    padding: 15px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    margin-right: 1000px;
-}
-
-#wishlist-container h3 {
-    text-align: center;
-    margin-bottom: 15px;
-    color: rgb(126, 81, 51);
-    font-size: 30px;
-}
-
-/* Wishlist Item Styling */
-.wishlist-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: rgb(242, 219, 184);
-    border: 1px solid rgb(216, 190, 160);
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    width: 250px;
-    margin: 15px auto; /* Centered on the page */
-}
-
-.wishlist-img {
-    width: 160px;
-    height: 160px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
-
-.product-name {
-    font-size: 18px;
-    font-weight: bold;
-    color: rgb(126, 81, 51);
-    margin-bottom: 5px;
-}
-
-.product-price {
-    color: #27ae60;
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-.Button,
-.Buttons {
-    background-color: rgb(126, 81, 51);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 16px;
-    margin: 5px 0;
-    width: 120px;
-}
-
-.Button:hover,
-.Buttons:hover {
-    background-color: rgb(94, 60, 36);
-}
-
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-    .wishlist-item {
-        width: 100%;
-    }
-
-    .wishlist-img {
-        width: 100px;
-        height: 100px;
-    }
-
-    .Button,
-    .Buttons {
-        width: 100%;
-    }
-
-    button {
-        margin-left: 0;
-        width: 100%;
-    }
 }

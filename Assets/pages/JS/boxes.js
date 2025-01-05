@@ -74,6 +74,7 @@ function loadProducts() {
           toggleWishlistItem(name, price, img);
         });
       });
+      
     });
 }
 
@@ -100,42 +101,32 @@ window.addToCart = function addToCart(name, price, img) {
 const toggleWishlistItem = (name, price, image = "N/A") => {
   const user = auth.currentUser;
 
-  // Redirect to login if user is not logged in
   if (!user) {
     alert("Please log in to use the wishlist feature.");
     window.location.href = "../../../Assets/pages/html/login.html";
     return;
   }
 
-  const userEmail = user.email;
-  console.log("Toggling wishlist item:", name, price, userEmail); // Log wishlist toggle
-
-  // Normalize email to handle it as a unique key
-  const wishlistKey = `wishlist_${normalizeEmail(userEmail)}`;
+  const userEmail = normalizeEmail(user.email); // Normalize email for storage
+  const wishlistKey = `wishlist_${userEmail}`;
   let wishlistItems = JSON.parse(localStorage.getItem(wishlistKey)) || [];
 
-  // Find the index of the item in the wishlist
-  const existingIndex = wishlistItems.findIndex((item) => item.name === name && item.price === price);
-
-  const wishlistImg = document.querySelector(`img[data-name="${name}"][data-price="${price}"]`);
+  const existingIndex = wishlistItems.findIndex(
+    (item) => item.name === name && item.price === price
+  );
 
   if (existingIndex > -1) {
-    // Remove the item from the wishlist if it exists
+    // Remove the item if it already exists
     wishlistItems.splice(existingIndex, 1);
-    console.log(`${name} removed from wishlist.`);
     alert(`${name} removed from your wishlist.`);
   } else {
-    // Add the item to the wishlist
+    // Add the item if it doesn't exist
     wishlistItems.push({ name, price, image });
-    console.log(`${name} added to wishlist.`);
     alert(`${name} added to your wishlist!`);
   }
 
-  // Save the updated wishlist to local storage
+  // Save updated wishlist to localStorage
   localStorage.setItem(wishlistKey, JSON.stringify(wishlistItems));
-
-  // Call displayWishlist to update the UI with the new wishlist items
-  displayWishlist(userEmail);
 };
 
 

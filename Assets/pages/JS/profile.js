@@ -22,9 +22,8 @@ const db = getFirestore(app);
 // DOM Elements
 const usernameElement = document.getElementById("username");
 const emailElement = document.getElementById("email");
-const wishlistContainer = document.getElementById("wishlist-container");
 const logoutButton = document.getElementById("logout-btn");
-const productList = document.getElementById("product-list");
+
 
 // Normalize Email Function
 function normalizeEmail(email) {
@@ -59,41 +58,7 @@ const fetchUserData = async (user) => {
 };
 
 
-const displayWishlist = (userEmail) => {
-    const wishlistKey = `wishlist_${normalizeEmail(userEmail)}`;
-    const wishlistItems = JSON.parse(localStorage.getItem(wishlistKey)) || [];
 
-    wishlistContainer.innerHTML = `<h3>Your Wishlist</h3>`;
-
-    if (wishlistItems.length === 0) {
-        wishlistContainer.innerHTML += `<p>Your wishlist is empty.</p>`;
-        return;
-    }
-
-    wishlistItems.forEach((item) => {
-        const itemDiv = document.createElement("div");
-        itemDiv.classList.add("wishlist-item");
-
-        // Check if all the required fields (name, price, image, rating) exist before displaying
-        if (!item.name || !item.price) {
-            console.warn("Invalid item found in wishlist:", item);
-            return; // Skip invalid items
-        }
-
-        itemDiv.innerHTML = `
-            <img src="${item.image || 'default_image.jpg'}" alt="${item.name}" class="wishlist-img">
-            <p class="product-name"><strong>${item.name}</strong></p>
-            <p class="product-price">Price: ${item.price}</p>
-            
-            <button class="Button">Add to Cart</button>
-            <button type="button" class="Buttons">Buy Now</button>
-        `;
-
-        wishlistContainer.appendChild(itemDiv);
-    });
-
-    console.log("Wishlist Items:", wishlistItems); // Log the wishlist items for debugging
-};
 
 // Authentication State Listener
 onAuthStateChanged(auth, async (user) => {

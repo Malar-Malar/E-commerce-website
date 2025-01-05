@@ -12,6 +12,7 @@ header {
     color: white;
     padding: 10px 0;
     text-align: center;
+    z-index: 1;
 }
 
 header h3 {
