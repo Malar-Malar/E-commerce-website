@@ -3,55 +3,55 @@
         {
           "image": "../../../Assets/images/my-wish-list.png",
           "image1": "../../../Assets/images/cakeTopper_img2.jpg",
-           "name": "caketopper",
+           "name": "BirthDay caketopper",
           "image2": "../../../Assets/images/star_rating_img.webp",
           "price": "39"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/cakeTopper_img3.jpg",
-            "name": "caketopper",
+            "name": "Anniversary caketopper",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "100"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/cakeTopper_img4.jpg",
-            "name": "caketopper",
+            "name": "couple 2 caketopper",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "79"
         },{
             "image": "../../../Assets/images/my-wish-list.png",
             "image1":"../../../Assets/images/cakeTopper_img5.jpg",
-            "name": "caketopper",
+            "name": "Mr&Mrs caketopper",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "110"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1":"../../../Assets/images/cakeTopper_img6.jpg",
-            "name": "caketopper",
+            "name": "Love caketopper",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "60"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/cakeTopper_img7.jpg",
-            "name": "caketopper",
+            "name": "couple1 caketopper",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "139"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/cakeTopper_img8.jpg",
-            "name": "caketopper",
+            "name": "Couple caketopper",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "120"   
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/cakeTopper_img1.jpg",
-            "name": "caketopper",
+            "name": "Rakhi caketopper",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "99"
         }

@@ -3,14 +3,14 @@
         {
           "image": "../../../Assets/images/my-wish-list.png",
           "image1": "../../../Assets/images/bread_proofing_img1.jpg",
-          "name": "proofing tin",
+          "name": "proofing tin 1",
           "image2": "../../../Assets/images/star_rating_img.webp",
           "price": "$1200"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/bread_proofing_img2.jpg",
-            "name": "proofing tin",
+            "name": "proofing tin 2",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "$1500"
         },
@@ -23,7 +23,7 @@
         },{
             "image": "../../../Assets/images/my-wish-list.png",
             "image1":"../../../Assets/images/measuring-cup-set.jpg",
-            "name": "cup",
+            "name": "cup 1",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "$150"
         },

@@ -24,35 +24,35 @@
         },{
             "image": "../../../Assets/images/my-wish-list.png",
             "image1":"../../../Assets/images/flour_img1.jpg",
-            "name": "maida",
+            "name": "Flour",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "39"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/food_colour_img1.jpg",
-            "name": "food colour",
+            "name": "Yellow food colour",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "22"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/food_colour_img2.jpg",
-            "name": "food colour",
+            "name": "Red food colour",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "20"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/food_colour_img3.jpg",
-            "name": "food colour",
+            "name": "Pink food colour",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "25"   
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/food_colour_img4.jpg",
-            "name": "food colour",
+            "name": "Blue food colour",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "30"
         },

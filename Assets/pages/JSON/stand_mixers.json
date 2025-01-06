@@ -3,55 +3,55 @@
         {
           "image": "../../../Assets/images/my-wish-list.png",
           "image1": "../../../Assets/images/stand_mixers2.jpg",
-          "name": "stand mixer",
+          "name": "stand mixer 8",
           "image2": "../../../Assets/images/star_rating_img.webp",
           "price": "9000"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/stand_mixers4.jpg",
-            "name": "stand mixer",
+            "name": "stand mixer 7",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "8200"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/stand_mixers3.jpg",
-            "name": "stand mixer",
+            "name": "stand mixer 6",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "5000"
         },{
             "image": "../../../Assets/images/my-wish-list.png",
             "image1":"../../../Assets/images/stand_mixers5.jpg",
-            "name": "stand mixer",
+            "name": "stand mixer 5",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "8500"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/stand_mixers1.jpg",
-            "name": "stand mixer",
+            "name": "stand mixer 4",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "9000"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/stand_mixers6.jpg",
-            "name": "stand mixer",
+            "name": "stand mixer 3",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "32000"
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/stand_mixers7.jpg",
-            "name": "stand mixer",
+            "name": "stand mixer 2",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "35000"   
         },
         {
             "image": "../../../Assets/images/my-wish-list.png",
             "image1": "../../../Assets/images/stand_mixers8.jpg",
-            "name": "stand mixer",
+            "name": "stand mixer 1",
             "image2": "../../../Assets/images/star_rating_img.webp",
             "price": "9000"
         }
