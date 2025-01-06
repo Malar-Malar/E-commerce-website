@@ -4,27 +4,47 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Poppins', Arial, sans-serif;
-  background-color: #f5f7fa; /* Light grayish-blue background */
+  background-color: #f5f7fa; 
   color: #333;
   line-height: 1.6;
 }
 
- h1 {
+h1 {
   font-size: 36px;
-  text-align: center;
-  padding: 20px;
-  color: #444;
-  background: #c2453a; /* Highlight color for header */
   color: #fff;
+  background: #c2453a; 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  margin: 10;
-  z-index: 1;
+  margin: 0; 
+  z-index: 10;
+  position: fixed; 
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  padding: 0 20px; 
+  height: 80px;
 }
-a{
+
+.header-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px; 
+}
+
+a {
   text-decoration: none;
-  font-size: 30px;
-  margin-left: 20px;
+  font-size: 24px;
+  color: #fff;
+  font-weight: bold;
+  margin-top: 3000px;
 }
+
+a:hover {
+  text-decoration: underline;
+}
+
 
 
 #wishlist-container {
@@ -33,10 +53,10 @@ a{
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: flex;
-  flex-wrap: wrap; /* Enables wrapping of items */
-  justify-content: center; /* Centers items horizontally */
-  gap: 150px; /* Adds 50px spacing between items */
-  top: 30px;
+  flex-wrap: wrap; 
+  justify-content: center; 
+  gap: 50px; /* Adjusted spacing between items */
+  margin-top: 100px; /* Adds space below the fixed header */
 }
 
 /* Wishlist Header */
