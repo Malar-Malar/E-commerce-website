@@ -24,10 +24,7 @@ const usernameElement = document.getElementById("username");
 const emailElement = document.getElementById("email");
 const logoutButton = document.getElementById("logout-btn");
 
-// Normalize Email Function
-function normalizeEmail(email) {
-    return email.replace('.', '_');
-}
+
 
 // Fetch and Display User Data
 const fetchUserData = async (user) => {
@@ -84,6 +81,12 @@ logoutButton.addEventListener("click", () => {
             alert("Error during logout. Please try again.");
         });
 });
+
+
+// Normalize Email Function
+function normalizeEmail(email) {
+  return email.replace('.', '_');
+}
 
 // Function to load order history
 function loadOrderHistory() {

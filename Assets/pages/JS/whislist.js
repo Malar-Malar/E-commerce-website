@@ -179,7 +179,7 @@ window.buyNow = function buyNow(name, price, img) {
   console.log("Purchase added to localStorage:", purchases);
 
   // Redirect to checkout page
-  window.location.href = "../../../Assets/pages/html/checkout.html";
+  window.location.href = "../../../Assets/pages/html/buy.html";
 };
 
 

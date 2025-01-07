@@ -202,7 +202,7 @@ window.buyNow = function buyNow(name, price, img) {
   });
 
   localStorage.setItem(`purchases_${userEmail}`, JSON.stringify(purchases));
-  window.location.href = "../../../Assets/pages/html/checkout.html";
+  window.location.href = "../../../Assets/pages/html/buy.html";
 };
 
 // Call fetchProducts when the page loads
