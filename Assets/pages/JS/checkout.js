@@ -50,8 +50,18 @@ document.getElementById('checkout-form').addEventListener('submit', function (e)
     paymentMethod,
     date: new Date().toISOString(),
   };
+  const cart = JSON.parse(localStorage.getItem("currentOrder"));
+  const userEmail = email.replace(/\./g, "_");
+  const ordersKey = `purchases_${userEmail}`;
+  const existingOrders = JSON.parse(localStorage.getItem(ordersKey)) || [];
+  const updatedOrders = [...existingOrders, ...cart.map(item => ({ ...item, ...purchaseDetails }))];
 
-  localStorage.setItem('recentPurchase', JSON.stringify(purchaseDetails));
+  localStorage.setItem(ordersKey, JSON.stringify(updatedOrders));
+  localStorage.removeItem("currentOrder"); // Clear temporary order data
+
+  
+  localStorage.removeItem(userEmail); // Clear the specific user's cart
+
 
   // Redirect to success page
   window.location.href = '../../../Assets/pages/html/successful.html';

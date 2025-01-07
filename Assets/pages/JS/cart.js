@@ -1,3 +1,4 @@
+// Import Firebase modules
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 
@@ -19,16 +20,62 @@ const auth = getAuth(app);
 // Global variable to track the current user
 let currentUser = null;
 
+// Function to remove an item from the cart
+function removeFromCart(index) {
+  console.log("Remove button clicked for index:", index); // Debugging log
+
+  if (!currentUser) {
+    alert("Please log in to modify your cart.");
+    return;
+  }
+
+  const userEmail = currentUser.email.replace(/\./g, "_");
+  let cart = JSON.parse(localStorage.getItem(userEmail)) || [];
+
+  // Remove the item at the specified index
+  cart.splice(index, 1);
+
+  // Update the cart in localStorage
+  localStorage.setItem(userEmail, JSON.stringify(cart));
+
+  // Reload the cart page to reflect the changes
+  location.reload();
+}
+
+// Attach removeFromCart to the global window object
+window.removeFromCart = removeFromCart;
+
+// Function to place an order
+function placeOrder() {
+  if (!currentUser) {
+    alert("Please log in to place an order.");
+    return;
+  }
+
+  const userEmail = currentUser.email.replace(/\./g, "_");
+  const cart = JSON.parse(localStorage.getItem(userEmail)) || [];
+
+  if (cart.length === 0) {
+    alert("Your cart is empty.");
+    return;
+  }
+
+  // Save the current order to localStorage
+  localStorage.setItem("currentOrder", JSON.stringify(cart));
+
+  // Redirect to the checkout page
+  location.href = "../../../Assets/pages/html/checkout.html";
+}
+
 // On page load
 window.onload = function () {
-  // Listen for authentication state changes
   auth.onAuthStateChanged((user) => {
     if (!user) {
       alert("Please log in to view your cart.");
       return;
     }
 
-    currentUser = user; // Track the logged-in user
+    currentUser = user;
     const userEmail = currentUser.email.replace(/\./g, "_");
     const cart = JSON.parse(localStorage.getItem(userEmail)) || [];
 
@@ -37,18 +84,16 @@ window.onload = function () {
       return;
     }
 
-    // Populate the cart list
     const cartList = document.getElementById("cart-list");
-    let totalAmount = 0; // Initialize total amount
+    let totalAmount = 0;
 
     cart.forEach((item, index) => {
       const cartItemDiv = document.createElement("div");
       cartItemDiv.classList.add("cart-item");
 
-      // Parse the price (remove "$" symbol if present)
       const itemPrice = parseFloat(item.price.replace(/^\$/, "")) || 0;
       const itemTotal = itemPrice * item.quantity;
-      totalAmount += itemTotal; // Add to the total amount
+      totalAmount += itemTotal;
 
       cartItemDiv.innerHTML = `
         <img src="${item.img}" alt="${item.name}" class="cart-item-img">
@@ -62,47 +107,16 @@ window.onload = function () {
       cartList.appendChild(cartItemDiv);
     });
 
-    // Display the total amount
     const totalAmountDiv = document.createElement("div");
     totalAmountDiv.classList.add("total-amount");
     totalAmountDiv.innerHTML = `<h3>Total Amount: $${totalAmount.toFixed(2)}</h3>`;
     cartList.appendChild(totalAmountDiv);
+
+    // Add Place Order Button
+    const placeOrderButton = document.createElement("button");
+    placeOrderButton.textContent = "Place Order";
+    placeOrderButton.classList.add("place-order");
+    placeOrderButton.onclick = placeOrder;
+    cartList.appendChild(placeOrderButton);
   });
 };
-
-// Remove item from cart
-window.removeFromCart = function (index) {
-  if (!currentUser) {
-    alert("Please log in to remove items from your cart.");
-    return;
-  }
-
-  const userEmail = currentUser.email.replace(/\./g, "_");
-  let cart = JSON.parse(localStorage.getItem(userEmail)) || [];
-
-  console.log("Cart before removal:", cart);
-
-  // Validate index
-  if (index < 0 || index >= cart.length) {
-    alert("Invalid cart item index.");
-    return;
-  }
-
-  // Remove the item at the specified index
-  cart.splice(index, 1);
-
-  console.log("Cart after removal:", cart);
-
-  // Save the updated cart back to localStorage
-  localStorage.setItem(userEmail, JSON.stringify(cart));
-
-  console.log("Updated cart in localStorage:", localStorage.getItem(userEmail));
-
-  // Reload the cart to reflect changes
-  loadCart();
-};
-
-// Reload the cart page to reflect changes
-function loadCart() {
-  location.reload();
-}

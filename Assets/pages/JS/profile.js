@@ -161,9 +161,3 @@ function loadOrderHistory() {
 //     // Reload order history to update the UI
 //     loadOrderHistory();
 // }
-
-
-
-
-
-
