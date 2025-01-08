@@ -40,6 +40,9 @@ html{
     height: 30px;
     
 }
+.heading{
+  font-size: 30px;
+}
 .backgroundImg img{
     height: 870px;
     width: 100%;

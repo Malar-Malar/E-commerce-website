@@ -24,7 +24,7 @@ let globalUserEmail = "";
 
 // Normalize email function
 function normalizeEmail(email) {
-  return email.replace('.', '_');
+  return encodeURIComponent(email);
 }
 
 // Listen for authentication state changes
@@ -32,7 +32,7 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     console.log("User is logged in:", user.email);
     currentUser = user;
-    globalUserEmail = user.email.replace('.', '_'); // Normalize email for use as a key
+    globalUserEmail = normalizeEmail(user.email);
     loadProducts(); // Load products after login
   } else {
     console.log("No user is logged in.");
@@ -44,21 +44,35 @@ onAuthStateChanged(auth, (user) => {
 
 // Fetch product data and render products
 function loadProducts() {
-  fetch('../../../Assets/pages/json/boxes.json')
-    .then((response) => response.json())
-    .then((jsonData) => {
-      const productList = document.getElementById("product-list");
+  const productList = document.getElementById("product-list");
+  if (!productList) {
+    console.error("Product list element not found.");
+    return;
+  }
 
+  // Clear previous products
+  productList.innerHTML = "";
+
+  fetch("../../../Assets/pages/json/boxes.json")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to fetch products: " + response.statusText);
+      }
+      return response.json();
+    })
+    .then((jsonData) => {
       jsonData.products.forEach((product) => {
         const productDiv = document.createElement("div");
         productDiv.classList.add("products");
 
         productDiv.innerHTML = `
           <img src="${product.image}" alt="wishlist_img" class="Wishlist-img" id="wishlist-${product.id}" 
-               data-name="${product.name}" data-price="${product.price}" data-img="${product.image1}" draggable="false">
-          <img src="${product.image1}" alt="stand_mixer_img" class="products-images" draggable="false">
+               data-name="${product.name}" data-price="${product.price}" data-img="${product.image1}" draggable="false" 
+               onerror="this.onerror=null;this.src='fallback-image.png';">
+          <img src="${product.image1}" alt="stand_mixer_img" class="products-images" draggable="false" 
+               onerror="this.onerror=null;this.src='fallback-image.png';">
           <p>${product.name}</p>
-          <img src="${product.image2}" alt="rating" class="stars_rating">
+          <img src="${product.image2}" alt="rating" class="stars_rating" onerror="this.onerror=null;this.src='fallback-image.png';">
           <p>Price: ${product.price}</p> 
           <button type="button" class="button" onclick="addToCart('${product.name}', '${product.price}', '${product.image1}')">Add to Cart</button>
           <button type="button" class="buttons" onclick="buyNow('${product.name}', '${product.price}', '${product.image1}')">Buy Now</button>
@@ -69,82 +83,75 @@ function loadProducts() {
 
       // Attach event listeners for wishlist functionality
       document.querySelectorAll(".Wishlist-img").forEach((wishlistImg) => {
-        wishlistImg.addEventListener("click", (event) => {
-          const { name, price, img } = event.target.dataset;
-          toggleWishlistItem(name, price, img);
-        });
+        wishlistImg.removeEventListener("click", handleWishlistClick);
+        wishlistImg.addEventListener("click", handleWishlistClick);
       });
-      
+    })
+    .catch((error) => {
+      console.error("Error loading products:", error);
+      alert("Failed to load products. Please try again later.");
     });
+}
+
+// Function to handle wishlist click
+function handleWishlistClick(event) {
+  const { name, price, img } = event.target.dataset;
+  toggleWishlistItem(name, price, img);
 }
 
 // Function to add items to the cart
 window.addToCart = function addToCart(name, price, img) {
   const userEmail = globalUserEmail;
-
   let cart = JSON.parse(localStorage.getItem(userEmail)) || [];
 
   const existingItem = cart.find((item) => item.name === name && item.price === price);
-
   if (existingItem) {
     existingItem.quantity += 1;
-    alert('Increased quantity of the item in your cart!');
+    alert("Increased quantity of the item in your cart!");
   } else {
     cart.push({ name, price, img, quantity: 1 });
-    alert('Product added to cart!');
+    alert("Product added to cart!");
   }
 
   localStorage.setItem(userEmail, JSON.stringify(cart));
 };
 
-
+// Function to toggle wishlist items
 const toggleWishlistItem = (name, price, image = "N/A") => {
   const user = auth.currentUser;
-
   if (!user) {
     alert("Please log in to use the wishlist feature.");
     window.location.href = "../../../Assets/pages/html/login.html";
     return;
   }
 
-  const userEmail = normalizeEmail(user.email); // Normalize email for storage
+  const userEmail = normalizeEmail(user.email);
   const wishlistKey = `wishlist_${userEmail}`;
   let wishlistItems = JSON.parse(localStorage.getItem(wishlistKey)) || [];
 
-  const existingIndex = wishlistItems.findIndex(
-    (item) => item.name === name && item.price === price
-  );
+  const existingIndex = wishlistItems.findIndex((item) => item.name === name && item.price === price);
 
   if (existingIndex > -1) {
-    // Remove the item if it already exists
     wishlistItems.splice(existingIndex, 1);
     alert(`${name} removed from your wishlist.`);
   } else {
-    // Add the item if it doesn't exist
     wishlistItems.push({ name, price, image });
     alert(`${name} added to your wishlist!`);
   }
 
-  // Save updated wishlist to localStorage
   localStorage.setItem(wishlistKey, JSON.stringify(wishlistItems));
 };
 
-
+// Function to handle Buy Now
 window.buyNow = function buyNow(name, price, img) {
   const user = auth.currentUser;
-
-  // Check if the user is logged in
   if (!user) {
     alert("You need to log in to make a purchase.");
-    console.log("User not logged in, redirecting to login page...");
     window.location.href = "../../../Assets/pages/html/login.html";
-    return; // Stop further execution
+    return;
   }
 
-  console.log("User is logged in. Proceeding to add purchase...");
-
-  // User is logged in, proceed with Buy Now functionality
-  const userEmail = user.email.replace('.', '_'); // Normalize email
+  const userEmail = normalizeEmail(user.email);
   let purchases = JSON.parse(localStorage.getItem(`purchases_${userEmail}`)) || [];
 
   purchases.push({
@@ -154,10 +161,6 @@ window.buyNow = function buyNow(name, price, img) {
     date: new Date().toISOString(),
   });
 
-  // Save updated purchases to localStorage
   localStorage.setItem(`purchases_${userEmail}`, JSON.stringify(purchases));
-  console.log("Purchase added to localStorage:", purchases);
-
-  // Redirect to checkout page
   window.location.href = "../../../Assets/pages/html/buy.html";
 };
