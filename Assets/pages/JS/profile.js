@@ -129,38 +129,77 @@ function loadOrderHistory() {
         
       `;
   
-    //   // Add event listener to the remove button
-    //   const removeButton = orderDiv.querySelector("button");
-    //   removeButton.addEventListener("click", () => {
-    //     removeOrder(index); 
-    //     <button type="button" class="button" data-index="${index}">delete</button>// Remove the order at this index
-    //   });
+      // // Add event listener to the remove button
+      // const removeButton = orderDiv.querySelector("button");
+      // removeButton.addEventListener("click", () => {
+      //   removeOrder(index); 
+      //   <button type="button" class="button" data-index="${index}">delete</button>// Remove the order at this index
+      // });
   
       ordersList.appendChild(orderDiv);
     });
 }
 
-// // Function to remove order from history
-// function removeOrder(index) {
-//     const user = auth.currentUser;
-  
-//     if (!user) {
-//       alert("Please log in to remove an order.");
-//       window.location.href = "../../../Assets/pages/html/login.html";
-//       return;
-//     }
-  
-//     const userEmail = normalizeEmail(user.email); // Normalize email
-//     const ordersKey = `purchases_${userEmail}`;
-//     let orderHistory = JSON.parse(localStorage.getItem(ordersKey)) || [];
-  
-//     // Remove the order at the specified index
-//     orderHistory.splice(index, 1);
-  
-//     // Update localStorage with the updated order history
-//     localStorage.setItem(ordersKey, JSON.stringify(orderHistory));
-//     console.log("Order removed. Updated order history:", orderHistory);
-  
-//     // Reload order history to update the UI
-//     loadOrderHistory();
+// function loadOrderHistory() {
+//   const user = auth.currentUser;
+
+//   if (!user) {
+//     alert("Please log in to view your order history.");
+//     window.location.href = "../../../Assets/pages/html/login.html";
+//     return;
+//   }
+
+//   const userEmail = normalizeEmail(user.email);
+//   const ordersKey = `purchases_${userEmail}`;
+//   const orderHistory = JSON.parse(localStorage.getItem(ordersKey)) || [];
+
+//   const ordersList = document.getElementById("orders-list");
+//   ordersList.innerHTML = "";
+
+//   if (orderHistory.length === 0) {
+//     ordersList.innerHTML = "<p>No orders found.</p>";
+//     return;
+//   }
+
+//   orderHistory.forEach((order, index) => {
+//     const orderDiv = document.createElement("div");
+//     orderDiv.classList.add("order");
+
+//     orderDiv.innerHTML = `
+//       <div>
+//         <img src="${order.img}" alt="${order.name}" class="order-img">
+//         <p><strong>${order.name}</strong></p>
+//         <p>Price: ${order.price}</p>
+//         <p>Date: ${new Date(order.date).toLocaleDateString()}</p>
+//         <p>Time: ${new Date(order.date).toLocaleTimeString()}</p>
+//       </div>
+//     `;
+//     ordersList.appendChild(orderDiv);
+//   });
 // }
+
+
+// Function to remove order from history
+function removeOrder(index) {
+    const user = auth.currentUser;
+  
+    if (!user) {
+      alert("Please log in to remove an order.");
+      window.location.href = "../../../Assets/pages/html/login.html";
+      return;
+    }
+  
+    const userEmail = normalizeEmail(user.email); // Normalize email
+    const ordersKey = `purchases_${userEmail}`;
+    let orderHistory = JSON.parse(localStorage.getItem(ordersKey)) || [];
+  
+    // Remove the order at the specified index
+    orderHistory.splice(index, 1);
+  
+    // Update localStorage with the updated order history
+    localStorage.setItem(ordersKey, JSON.stringify(orderHistory));
+    console.log("Order removed. Updated order history:", orderHistory);
+  
+    // Reload order history to update the UI
+    loadOrderHistory();
+}

@@ -16,7 +16,7 @@ document.getElementById('checkout-form').addEventListener('submit', function (e)
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   // Check if email contains invalid patterns
-  if (email.includes('@@') || email.includes('.com.com') || email.includes('.net.net')||email.includes("gmail.com.gmail.com")||email.includes("gmail.comgmail.com")) {
+  if (email.includes('@@') || email.includes('.com.com') || email.includes('.net.net') || email.includes("gmail.com.gmail.com") || email.includes("gmail.comgmail.com")) {
     emailError.textContent = "Enter a valid email address";
     return;
   }
@@ -40,7 +40,19 @@ document.getElementById('checkout-form').addEventListener('submit', function (e)
     return;
   }
 
-  // Save details to localStorage (for demo purposes)
+  // Retrieve cart data from localStorage
+  const cart = JSON.parse(localStorage.getItem("currentOrder")) || [];
+  
+  // Log cart data to verify if it's correctly stored
+  console.log('Cart Data:', cart);
+  
+  // If cart is empty, show an alert
+  if (cart.length === 0) {
+    alert('Your cart is empty.');
+    return;
+  }
+
+  // Save purchase details to localStorage
   const purchaseDetails = {
     name,
     email,
@@ -50,17 +62,35 @@ document.getElementById('checkout-form').addEventListener('submit', function (e)
     paymentMethod,
     date: new Date().toISOString(),
   };
-  const cart = JSON.parse(localStorage.getItem("currentOrder"));
+
   const userEmail = email.replace(/\./g, "_");
   const ordersKey = `purchases_${userEmail}`;
+
+  // Retrieve existing orders or initialize with an empty array
   const existingOrders = JSON.parse(localStorage.getItem(ordersKey)) || [];
-  const updatedOrders = [...existingOrders, ...cart.map(item => ({ ...item, ...purchaseDetails }))];
-
-  localStorage.setItem(ordersKey, JSON.stringify(updatedOrders));
-  localStorage.removeItem("currentOrder"); // Clear temporary order data
-
   
-  localStorage.removeItem(userEmail); // Clear the specific user's cart
+  // Log existing orders for debugging
+  console.log('Existing Orders:', existingOrders);
+  
+  const updatedOrders = [
+    ...existingOrders,
+    ...cart.map(item => ({
+      ...item, // Retain product details
+       ...purchaseDetails, // Add user details
+    }))
+  ];
+
+  // Log updated orders for debugging
+  console.log('Updated Orders:', updatedOrders);
+
+  // Save updated orders to localStorage
+  localStorage.setItem(ordersKey, JSON.stringify(updatedOrders));
+
+  // Clear the cart after processing the order
+  localStorage.removeItem("currentOrder");
+
+  // Debugging logs
+  console.log("Cart after clearing:", localStorage.getItem("currentOrder"));
 
 
   // Redirect to success page

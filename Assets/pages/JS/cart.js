@@ -46,6 +46,27 @@ function removeFromCart(index) {
 window.removeFromCart = removeFromCart;
 
 // Function to place an order
+// function placeOrder() {
+//   if (!currentUser) {
+//     alert("Please log in to place an order.");
+//     return;
+//   }
+
+//   const userEmail = currentUser.email.replace(/\./g, "_");
+//   const cart = JSON.parse(localStorage.getItem(userEmail)) || [];
+
+//   if (cart.length === 0) {
+//     alert("Your cart is empty.");
+//     return;
+//   }
+
+//   // Save the current order to localStorage
+//   localStorage.setItem("currentOrder", JSON.stringify(cart));
+
+//   // Redirect to the checkout page
+//   location.href = "../../../Assets/pages/html/checkout.html";
+// }
+
 function placeOrder() {
   if (!currentUser) {
     alert("Please log in to place an order.");
@@ -63,9 +84,13 @@ function placeOrder() {
   // Save the current order to localStorage
   localStorage.setItem("currentOrder", JSON.stringify(cart));
 
+  // Clear the cart from localStorage
+  localStorage.removeItem(userEmail);
+
   // Redirect to the checkout page
   location.href = "../../../Assets/pages/html/checkout.html";
 }
+
 
 // On page load
 window.onload = function () {
