@@ -9,7 +9,7 @@ body {
 }
 
 /* Header */
-header h1 {
+h1 {
     font-size: 36px;
     text-align: center;
     padding: 20px;
@@ -93,7 +93,7 @@ header h1 {
 }
 
 /* Remove Button */
-.remove {
+.remove-btn {
     background-color: #d9534f;
     color: #fff;
     border: none;
@@ -104,7 +104,7 @@ header h1 {
     transition: background-color 0.3s ease;
 }
 
-.remove:hover {
+.remove-btn:hover {
     background-color: #c9302c;
 }
 
@@ -117,29 +117,12 @@ header h1 {
     color: #444;
 }
 
-/* Checkout Button */
-footer button {
-    background-color: #4caf50;
+.place-order{
+    background-color: rgb(59, 170, 59);
     color: white;
+    height: 40px;
+    width: 100px;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    display: block;
-    margin: 20px auto 0;
-    transition: background-color 0.3s ease;
-}
-
-footer button:hover {
-    background-color: #45a049;
-}
-
-/* Hover Effects for Buttons */
-button, .remove {
-    transition: transform 0.2s ease;
-}
-
-button:hover, .remove:hover {
-    transform: scale(1.05);
+    border-radius: 10px;
+    font-size: 15px;
 }

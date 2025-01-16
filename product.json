@@ -5,7 +5,7 @@
         {           
         "name": "Chocolate Mould",
         "image": "./Assets/images/mould_img1.jpg",
-        "link":  "./Assets/pages/html/chocolate-mould_page.html"
+        "link":  "./Assets/pages/html/mould.html"
         },
         {
          "name": "stand mixers",
@@ -13,9 +13,9 @@
           "link":"./Assets/pages/html/stand_mixers.html"
         },
         {
-          "name":"Piping bags & Nozzile",
+          "name":"Piping bags & Nozzle",
           "image": "./Assets/images/nozzile_img3.jpg",
-          "link": "./Assets/pages/html/pipping&nozzile_page.html"
+          "link": "./Assets/pages/html/piping.html"
         },
         {
           "name":"Bread & Cake tins",

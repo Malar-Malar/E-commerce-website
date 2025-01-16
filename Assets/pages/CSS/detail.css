@@ -1,0 +1,145 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Back button styling */
+.back-button {
+    margin-bottom: 20px; /* Add margin for spacing */
+    text-align: left;
+}
+
+.back-link {
+    font-size: 1.2rem;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #1c3047;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.back-link:hover {
+    background-color: #264d76;
+    color: #fff;
+}
+
+
+.container {
+    max-width: 1300px; /* Increased max-width */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Title styling */
+.title {
+    font-size: 2.5rem; /* Increased font size */
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px; /* Increased margin */
+    color: #555;
+}
+
+/* Product detail section */
+.detail {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px; /* Increased gap */
+    background: #fff;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1); /* Larger shadow */
+    padding: 30px; /* Increased padding */
+}
+
+.image {
+    flex: 1;
+    min-width: 350px; /* Increased minimum width */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f3f3f3;
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden;
+}
+
+.image img {
+    max-width: 100%;
+    max-height: 350px; /* Increased max height */
+    object-fit: contain;
+}
+
+.content {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Increased gap */
+}
+
+.name {
+    font-size: 2rem; /* Increased font size */
+    font-weight: bold;
+    color: #333;
+}
+
+.price {
+    font-size: 1.7rem; /* Increased font size */
+    color: #007bff;
+    margin: 15px 0; /* Increased margin */
+}
+
+.description {
+    font-size: 1.2rem; /* Increased font size */
+    color: #555;
+    line-height: 1.6; /* Increased line height */
+}
+
+/* Buttons styling */
+.buttons {
+    display: flex;
+    gap: 20px; /* Increased gap */
+    margin-top: 30px; /* Increased margin */
+}
+
+button {
+    padding: 15px 25px; /* Increased padding */
+    font-size: 1.2rem; /* Increased font size */
+    font-weight: bold;
+    border: none;
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button.buy-now {
+    background-color: #007bff;
+    color: #fff;
+}
+
+button.buy-now:hover {
+    background-color: #0056b3;
+}
+
+button.add-to-cart {
+    background-color: #28a745;
+    color: #fff;
+}
+
+button.add-to-cart:hover {
+    background-color: #1e7e34;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .detail {
+        flex-direction: column;
+    }
+
+    .image img {
+        max-height: 250px; /* Adjusted for smaller screens */
+    }
+}

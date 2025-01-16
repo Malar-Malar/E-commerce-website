@@ -22,9 +22,9 @@ const auth = getAuth(app);
 let currentUser = null;
 let globalUserEmail = "";
 
-// Normalize email function
+// Normalize email function (fix regex)
 function normalizeEmail(email) {
-  return encodeURIComponent(email);
+  return email.replace(/\./g, '_');  // Corrected regex for email normalization
 }
 
 // Listen for authentication state changes
@@ -32,7 +32,7 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     console.log("User is logged in:", user.email);
     currentUser = user;
-    globalUserEmail = normalizeEmail(user.email);
+    globalUserEmail = user.email.replace('.', '_'); // Normalize email for use as a key
     loadProducts(); // Load products after login
   } else {
     console.log("No user is logged in.");
@@ -42,69 +42,99 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// Fetch product data and render products
+// Fetch data and initialize the page
 function loadProducts() {
-  const productList = document.getElementById("product-list");
-  if (!productList) {
-    console.error("Product list element not found.");
+  fetch('../../../Assets/pages/json/boxes.json')
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then((data) => {
+    const products = data.products;
+    showDetails(products);
+  })
+  .catch((error) => {
+    console.error('There was a problem with the fetch operation:', error);
+  });
+}
+
+function showDetails(products) {
+  const detail = document.querySelector('.detail');
+  const productId = new URLSearchParams(window.location.search).get('id');
+  const thisProduct = products.find((product) => product.id == productId);
+
+  if (!thisProduct) {
+    window.location.href = '../../../index.html';
     return;
   }
 
-  // Clear previous products
-  productList.innerHTML = "";
+  // Update product details
+  detail.querySelector('.image img').src = thisProduct.image1;
+  detail.querySelector('.name').innerText = thisProduct.name;
+  detail.querySelector('.price').innerText = `${thisProduct.price}`;
+  detail.querySelector('.description').innerText = thisProduct.description;
 
-  fetch("../../../Assets/pages/json/boxes.json")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Failed to fetch products: " + response.statusText);
-      }
-      return response.json();
-    })
-    .then((jsonData) => {
-      jsonData.products.forEach((product) => {
-        const productDiv = document.createElement("div");
-        productDiv.classList.add("products");
+  // Add event listener for "Add to Cart" button
+  const addToCartButton = detail.querySelector('.add-to-cart');
+  addToCartButton.onclick = () => addToCart(thisProduct.name, thisProduct.price, thisProduct.image1);
 
-        productDiv.innerHTML = `
-          <img src="${product.image}" alt="wishlist_img" class="Wishlist-img" id="wishlist-${product.id}" 
-               data-name="${product.name}" data-price="${product.price}" data-img="${product.image1}" draggable="false" 
-               onerror="this.onerror=null;this.src='fallback-image.png';">
-          <img src="${product.image1}" alt="stand_mixer_img" class="products-images" draggable="false" 
-               onerror="this.onerror=null;this.src='fallback-image.png';">
-          <p>${product.name}</p>
-          <img src="${product.image2}" alt="rating" class="stars_rating" onerror="this.onerror=null;this.src='fallback-image.png';">
-          <p>Price: ${product.price}</p> 
-          <button type="button" class="button" onclick="addToCart('${product.name}', '${product.price}', '${product.image1}')">Add to Cart</button>
-          <button type="button" class="buttons" onclick="buyNow('${product.name}', '${product.price}', '${product.image1}')">Buy Now</button>
-        `;
-
-        productList.appendChild(productDiv);
-      });
-
-      // Attach event listeners for wishlist functionality
-      document.querySelectorAll(".Wishlist-img").forEach((wishlistImg) => {
-        wishlistImg.removeEventListener("click", handleWishlistClick);
-        wishlistImg.addEventListener("click", handleWishlistClick);
-      });
-    })
-    .catch((error) => {
-      console.error("Error loading products:", error);
-      alert("Failed to load products. Please try again later.");
-    });
+  // Add event listener for "Buy Now" button
+  const buyNowButton = detail.querySelector('.buy-now');
+  buyNowButton.onclick = () => buyNow(thisProduct);
 }
 
-// Function to handle wishlist click
-function handleWishlistClick(event) {
-  const { name, price, img } = event.target.dataset;
-  toggleWishlistItem(name, price, img);
+// Buy Now functionality
+function buyNow(product) {
+  // Check if the user is logged in
+  if (!currentUser) {
+    alert("Please log in to proceed.");
+    window.location.href = "../../../Assets/pages/html/login.html";
+    return;
+  }
+
+  // Prepare product data for storing
+  const productDetails = {
+    productName: product.name,
+    productPrice: product.price,
+    productImage: product.image1,
+    productQuantity: 1, // Default quantity is 1
+    date: new Date().toISOString(), // Store current date
+  };
+
+  // Log the product details to see if it's correctly structured
+  console.log("Selected Product:", productDetails);
+
+  // Normalize email to handle Firebase-style email keys
+  const userEmail = normalizeEmail(globalUserEmail);
+  const ordersKey = `purchases_${userEmail}`;
+  let orderHistory = JSON.parse(localStorage.getItem(ordersKey)) || [];
+
+  // Add the product to the order history
+  orderHistory.push(productDetails);
+  localStorage.setItem(ordersKey, JSON.stringify(orderHistory));
+
+  // Store the product in sessionStorage for the checkout page
+  sessionStorage.setItem("selectedProduct", JSON.stringify(productDetails));
+
+  // Log sessionStorage to ensure the product is stored correctly
+  console.log("SessionStorage after product is added:", sessionStorage.getItem("selectedProduct"));
+
+  // Redirect to the checkout page
+  window.location.href = "../../../Assets/pages/html/buy.html"; // Proceed to checkout
 }
 
-// Function to add items to the cart
-window.addToCart = function addToCart(name, price, img) {
-  const userEmail = globalUserEmail;
+
+function addToCart(name, price, img) {
+  const userEmail = normalizeEmail(globalUserEmail);
   let cart = JSON.parse(localStorage.getItem(userEmail)) || [];
 
+  // Debug log for price
+  console.log("Adding to cart:", { name, price, img });
+
   const existingItem = cart.find((item) => item.name === name && item.price === price);
+
   if (existingItem) {
     existingItem.quantity += 1;
     alert("Increased quantity of the item in your cart!");
@@ -114,53 +144,4 @@ window.addToCart = function addToCart(name, price, img) {
   }
 
   localStorage.setItem(userEmail, JSON.stringify(cart));
-};
-
-// Function to toggle wishlist items
-const toggleWishlistItem = (name, price, image = "N/A") => {
-  const user = auth.currentUser;
-  if (!user) {
-    alert("Please log in to use the wishlist feature.");
-    window.location.href = "../../../Assets/pages/html/login.html";
-    return;
-  }
-
-  const userEmail = normalizeEmail(user.email);
-  const wishlistKey = `wishlist_${userEmail}`;
-  let wishlistItems = JSON.parse(localStorage.getItem(wishlistKey)) || [];
-
-  const existingIndex = wishlistItems.findIndex((item) => item.name === name && item.price === price);
-
-  if (existingIndex > -1) {
-    wishlistItems.splice(existingIndex, 1);
-    alert(`${name} removed from your wishlist.`);
-  } else {
-    wishlistItems.push({ name, price, image });
-    alert(`${name} added to your wishlist!`);
-  }
-
-  localStorage.setItem(wishlistKey, JSON.stringify(wishlistItems));
-};
-
-// Function to handle Buy Now
-window.buyNow = function buyNow(name, price, img) {
-  const user = auth.currentUser;
-  if (!user) {
-    alert("You need to log in to make a purchase.");
-    window.location.href = "../../../Assets/pages/html/login.html";
-    return;
-  }
-
-  const userEmail = normalizeEmail(user.email);
-  let purchases = JSON.parse(localStorage.getItem(`purchases_${userEmail}`)) || [];
-
-  purchases.push({
-    name: name,
-    price: price,
-    img: img,
-    date: new Date().toISOString(),
-  });
-
-  localStorage.setItem(`purchases_${userEmail}`, JSON.stringify(purchases));
-  window.location.href = "../../../Assets/pages/html/buy.html";
-};
+}

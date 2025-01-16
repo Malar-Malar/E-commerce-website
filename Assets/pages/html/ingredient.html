@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../../../style.css">
+    <link rel="stylesheet" href="../../../Assets/pages/CSS/product.css">
 </head>
 <body>
-    <div class="header">
-        <h1>Pastry Provision</h1>
+    <header>
+        <nav class="header">
+   
+        <h1 class="heading">Pastry Provision</h1>
           <a href="../../../Assets/pages/html/searchbar.html">
               <img src="../../../Assets/images/search.jpg" alt="searchbar_img"> 
           </a>
           <a href="../../../index.html#Home">Home</a>
-          <a href="../../../index.html#Product">Product</a>
-          
+          <a href="../../../index.html#products">Product</a>
           <a href="../../../Assets/pages/html/login.html" >Log in </a>
           <a href="../../../Assets/pages/html/whislist.html">
             <img src="../../../Assets/images/my-wish-list.png" alt="whislist-icon">
@@ -25,14 +26,63 @@
           <a href="../../../Assets/pages/html/cart.html">
               <img src="../../../Assets/images/Add-to-cart-image.webp" class="add-to-cart" alt="Add-to-cart-logo">
           </a>
-  </div>
-  <div class="space"></div>
-    <h1 class="head">Ingredient</h1>
+   
+      </nav>
+   </header>
+     <div class="space"></div>
+    <h1 class="head">Packaging Box</h1>
     <div id="product-list" class="product-container"></div>
     
-    <script  type="module" src="../../../Assets/pages/JS/ingredient.js"></script>
-    <Script type="module" src="../../../Assets/pages/JS/cart.js"></Script>
-    <script type="module" src="../../../Assets/pages/JS/whislist.js"></script>
-    <script type="module" src="../../../Assets/pages/JS/buy.js"></script>
+    
+    <script type="module"> 
+        let products = null;
+
+// Fetch data from JSON file
+fetch('../../../Assets/pages/json/ingredient.json')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (data.products && Array.isArray(data.products)) {
+      products = data.products;
+      addDataToHTML();
+    } else {
+      console.error("Invalid JSON structure.");
+    }
+  })
+  .catch(error => {
+    console.error("Error fetching the products:", error);
+  });
+
+// Add data product to HTML
+let listProduct = document.getElementById("product-list");
+
+function addDataToHTML() {
+  if (!products || !Array.isArray(products)) {
+    console.error("Products data is invalid or not loaded.");
+    return;
+  }
+
+  products.forEach(product => {
+    // Create new element item
+    let newProduct = document.createElement("a");
+    newProduct.href = "../../../Assets/pages/detail/ingredientDetail.html?id=" + product.id;
+    newProduct.classList.add("products");
+    newProduct.innerHTML = `
+      
+      <img src="${product.image1}" alt="${product.name}">
+      <h2>${product.name}</h2>
+      <h2>${product.price}</h2>
+    `;
+
+    // Add this element to listProduct
+    listProduct.appendChild(newProduct);
+  });
+}
+
+    </script>
 </body>
 </html>

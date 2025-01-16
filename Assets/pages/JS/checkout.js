@@ -42,10 +42,10 @@ document.getElementById('checkout-form').addEventListener('submit', function (e)
 
   // Retrieve cart data from localStorage
   const cart = JSON.parse(localStorage.getItem("currentOrder")) || [];
-  
+
   // Log cart data to verify if it's correctly stored
   console.log('Cart Data:', cart);
-  
+
   // If cart is empty, show an alert
   if (cart.length === 0) {
     alert('Your cart is empty.');
@@ -68,15 +68,19 @@ document.getElementById('checkout-form').addEventListener('submit', function (e)
 
   // Retrieve existing orders or initialize with an empty array
   const existingOrders = JSON.parse(localStorage.getItem(ordersKey)) || [];
-  
+
   // Log existing orders for debugging
   console.log('Existing Orders:', existingOrders);
-  
+
+  // Create the updated orders array with user info and cart items
   const updatedOrders = [
     ...existingOrders,
     ...cart.map(item => ({
-      ...item, // Retain product details
-       ...purchaseDetails, // Add user details
+      productName: item.name,  // Include the product name
+      productImage: item.img,  // Include the product image
+      productPrice: item.price,  // Include the product price
+      productQuantity: item.quantity,  // Include the product quantity
+      ...purchaseDetails,  // Add user details (name, email, etc.)
     }))
   ];
 
@@ -91,7 +95,6 @@ document.getElementById('checkout-form').addEventListener('submit', function (e)
 
   // Debugging logs
   console.log("Cart after clearing:", localStorage.getItem("currentOrder"));
-
 
   // Redirect to success page
   window.location.href = '../../../Assets/pages/html/successful.html';

@@ -10,7 +10,7 @@ if (productList) {
         productDiv.innerHTML = `
             <img src="${product.image}" alt="${product.name}"  draggable="false">
             <h2>${product.name}</h2>
-            <button type="button" onclick="location.href='${product.link}'">Click More Product</button>
+            <button type="button" onclick="location.href='${product.link}'">Click for More Product</button>
         `;
         productList.appendChild(productDiv);
     });

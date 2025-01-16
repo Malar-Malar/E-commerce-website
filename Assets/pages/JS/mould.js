@@ -44,7 +44,7 @@ onAuthStateChanged(auth, (user) => {
 
 // Fetch data and initialize the page
 function loadProducts() {
-  fetch('../../../Assets/pages/json/ingredient.json')
+  fetch('../../../Assets/pages/json/mould.json')
   .then((response) => {
     if (!response.ok) {
       throw new Error('Network response was not ok');

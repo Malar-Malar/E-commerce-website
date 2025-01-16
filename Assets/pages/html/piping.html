@@ -38,7 +38,7 @@
         let products = null;
 
 // Fetch data from JSON file
-fetch('../../../Assets/pages/json/kitchenware.json')
+fetch('../../../Assets/pages/json/piping.json')
   .then(response => {
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -69,7 +69,7 @@ function addDataToHTML() {
   products.forEach(product => {
     // Create new element item
     let newProduct = document.createElement("a");
-    newProduct.href = "../../../Assets/pages/detail/kitchenwareDetail.html?id=" + product.id;
+    newProduct.href = "../../../Assets/pages/detail/pipingDetail.html?id=" + product.id;
     newProduct.classList.add("products");
     newProduct.innerHTML = `
       

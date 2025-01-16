@@ -40,10 +40,10 @@ onAuthStateChanged(auth, (user) => {
 const jsonFiles = [
   '../../../Assets/pages/JSON/boxes.json',
   '../../../Assets/pages/JSON/cakeTopper.json',
-  '../../../Assets/pages/JSON/chocolate-mould.json',
+  '../../../Assets/pages/JSON/mould.json',
   '../../../Assets/pages/JSON/ingredient.json',
   '../../../Assets/pages/JSON/kitchenware.json',
-  '../../../Assets/pages/JSON/pipingNozzile.json',
+  '../../../Assets/pages/JSON/piping.json',
   '../../../Assets/pages/JSON/stand_mixers.json',
   '../../../Assets/pages/JSON/tin.json'
 ];
@@ -75,41 +75,32 @@ async function fetchProducts() {
   }
 }
 
-// Function to display products
 function displayProducts(products) {
   const itemsContainer = document.getElementById("items");
   itemsContainer.innerHTML = "";
 
   products.forEach(product => {
+    const name = product.name || "Unnamed Product";
+    const price = product.price || "0.00";
+    const image1 = product.image1 || "./default-image.jpg";
+
+    console.log("Rendering product:", { name, price, image1 });
+
     const productDiv = document.createElement("div");
     productDiv.classList.add("product");
 
-    const image = product.image || './default-image.jpg';
-    const name = product.name || 'Unnamed Product';
-    const price = product.price || 'N/A';
-    const image1 = product.image1 || './default-image.jpg';
-    const image2 = product.image2 || './default-image.jpg';
-
     productDiv.innerHTML = `
-      <img src="${image}" alt="Product Image" class="wishlist-img" id="wishlist-${product.id}" 
-         data-name="${product.name}" data-price="${product.price}" data-img="${product.image1}" draggable="false">
-      <img src="${image1}" alt="Product Image" class="product-image">
       <p class="product-name">${name}</p>
-      <img class="star_rating" src="${image2}" alt="Star Rating">
       <p class="price">${price}</p>
-      <button class="Button" onclick="addToCart('${product.name}', '${product.price}', '${product.image1}')">Add to Cart</button>
-      <button type="button" class="btn" onclick="buyNow('${product.name}', '${product.price}', '${product.image1}')">Buy Now</button>
+      <img src="${image1}" alt="Product Image">
+      <button class="Button" onclick="addToCart('${name}', '${price}', '${image1}')">Add to Cart</button>
+      <button class="btn" onclick="buyNow('${name}', '${price}', '${image1}')">Buy Now</button>
     `;
 
     itemsContainer.appendChild(productDiv);
-
-    // Attach wishlist functionality
-    const wishlistImg = productDiv.querySelector(".wishlist-img");
-    wishlistImg.addEventListener("click", () => {
-      toggleWishlistItem(product.name, product.price, product.image1);
-    });
   });
 }
+
 
 // Function to filter products based on search input
 function searchProducts(products) {
@@ -182,28 +173,39 @@ const toggleWishlistItem = (name, price, image = "N/A") => {
   localStorage.setItem(wishlistKey, JSON.stringify(wishlistItems));
 };
 
-window.buyNow = function buyNow(name, price, img) {
-  const user = auth.currentUser;
-
-  if (!user) {
-    alert("You need to log in to make a purchase.");
+function buyNow(name, price, image) {
+  // Check if the user is logged in
+  if (!currentUser) {
+    alert("Please log in to proceed.");
     window.location.href = "../../../Assets/pages/html/login.html";
     return;
   }
 
-  const userEmail = normalizeEmail(user.email);
-  let purchases = JSON.parse(localStorage.getItem(`purchases_${userEmail}`)) || [];
+  // Prepare product data for storing in sessionStorage
+  const productDetails = {
+    productName: name,
+    productPrice: price,
+    productImage: image,
+    productQuantity: 1, // Default quantity is 1
+    date: new Date().toISOString(), // Store current date
+  };
 
-  purchases.push({
-    name,
-    price,
-    img,
-    date: new Date().toISOString(),
-  });
+  // Log the product details to ensure correctness
+  console.log("Saving Selected Product to SessionStorage:", productDetails);
 
-  localStorage.setItem(`purchases_${userEmail}`, JSON.stringify(purchases));
+  // Store the product details in sessionStorage
+  sessionStorage.setItem("selectedProduct", JSON.stringify(productDetails));
+
+  // Redirect to the checkout page
   window.location.href = "../../../Assets/pages/html/buy.html";
-};
+}
+
+
+
+
+
+
+
 
 // Call fetchProducts when the page loads
 fetchProducts();
