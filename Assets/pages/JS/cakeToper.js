@@ -80,50 +80,21 @@ function showDetails(products) {
   const addToCartButton = detail.querySelector('.add-to-cart');
   addToCartButton.onclick = () => addToCart(thisProduct.name, thisProduct.price, thisProduct.image1);
 
-  // Add event listener for "Buy Now" button
-  const buyNowButton = detail.querySelector('.buy-now');
-  buyNowButton.onclick = () => buyNow(thisProduct);
+  detail.querySelector(".buy-now").onclick = () =>
+    buyNow(thisProduct.name, thisProduct.price, thisProduct.image1);
 }
 
-// Buy Now functionality
-function buyNow(product) {
-  // Check if the user is logged in
+window.buyNow = function buyNow(name, price, img) {
   if (!currentUser) {
-    alert("Please log in to proceed.");
+    alert("You need to log in to proceed.");
     window.location.href = "../../../Assets/pages/html/login.html";
     return;
   }
 
-  // Prepare product data for storing
-  const productDetails = {
-    productName: product.name,
-    productPrice: product.price,
-    productImage: product.image1,
-    productQuantity: 1, // Default quantity is 1
-    date: new Date().toISOString(), // Store current date
-  };
-
-  // Log the product details to see if it's correctly structured
-  console.log("Selected Product:", productDetails);
-
-  // Normalize email to handle Firebase-style email keys
-  const userEmail = normalizeEmail(globalUserEmail);
-  const ordersKey = `purchases_${userEmail}`;
-  let orderHistory = JSON.parse(localStorage.getItem(ordersKey)) || [];
-
-  // Add the product to the order history
-  orderHistory.push(productDetails);
-  localStorage.setItem(ordersKey, JSON.stringify(orderHistory));
-
-  // Store the product in sessionStorage for the checkout page
-  sessionStorage.setItem("selectedProduct", JSON.stringify(productDetails));
-
-  // Log sessionStorage to ensure the product is stored correctly
-  console.log("SessionStorage after product is added:", sessionStorage.getItem("selectedProduct"));
-
-  // Redirect to the checkout page
-  window.location.href = "../../../Assets/pages/html/buy.html"; // Proceed to checkout
-}
+  const productDetails = { name, price, img };
+  localStorage.setItem("buyNowProduct", JSON.stringify(productDetails));
+  window.location.href = "../../../Assets/pages/html/buy.html";
+};
 
 
 function addToCart(name, price, img) {

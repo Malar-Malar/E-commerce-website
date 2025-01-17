@@ -90,9 +90,10 @@ function displayProducts(products) {
     productDiv.classList.add("product");
 
     productDiv.innerHTML = `
+      <img src="${image1}" alt="Product Image">
       <p class="product-name">${name}</p>
       <p class="price">${price}</p>
-      <img src="${image1}" alt="Product Image">
+      
       <button class="Button" onclick="addToCart('${name}', '${price}', '${image1}')">Add to Cart</button>
       <button class="btn" onclick="buyNow('${name}', '${price}', '${image1}')">Buy Now</button>
     `;
@@ -100,7 +101,6 @@ function displayProducts(products) {
     itemsContainer.appendChild(productDiv);
   });
 }
-
 
 // Function to filter products based on search input
 function searchProducts(products) {
@@ -143,69 +143,6 @@ window.addToCart = function addToCart(name, price, img) {
 
   localStorage.setItem(userEmail, JSON.stringify(cart));
 };
-
-// Function to toggle wishlist items
-const toggleWishlistItem = (name, price, image = "N/A") => {
-  const user = auth.currentUser;
-
-  if (!user) {
-    alert("Please log in to use the wishlist feature.");
-    window.location.href = "../../../Assets/pages/html/login.html";
-    return;
-  }
-
-  const userEmail = normalizeEmail(user.email);
-  const wishlistKey = `wishlist_${userEmail}`;
-  let wishlistItems = JSON.parse(localStorage.getItem(wishlistKey)) || [];
-
-  const existingIndex = wishlistItems.findIndex(
-    (item) => item.name === name && item.price === price
-  );
-
-  if (existingIndex > -1) {
-    wishlistItems.splice(existingIndex, 1);
-    alert(`${name} removed from your wishlist.`);
-  } else {
-    wishlistItems.push({ name, price, image });
-    alert(`${name} added to your wishlist!`);
-  }
-
-  localStorage.setItem(wishlistKey, JSON.stringify(wishlistItems));
-};
-
-function buyNow(name, price, image) {
-  // Check if the user is logged in
-  if (!currentUser) {
-    alert("Please log in to proceed.");
-    window.location.href = "../../../Assets/pages/html/login.html";
-    return;
-  }
-
-  // Prepare product data for storing in sessionStorage
-  const productDetails = {
-    productName: name,
-    productPrice: price,
-    productImage: image,
-    productQuantity: 1, // Default quantity is 1
-    date: new Date().toISOString(), // Store current date
-  };
-
-  // Log the product details to ensure correctness
-  console.log("Saving Selected Product to SessionStorage:", productDetails);
-
-  // Store the product details in sessionStorage
-  sessionStorage.setItem("selectedProduct", JSON.stringify(productDetails));
-
-  // Redirect to the checkout page
-  window.location.href = "../../../Assets/pages/html/buy.html";
-}
-
-
-
-
-
-
-
 
 // Call fetchProducts when the page loads
 fetchProducts();

@@ -122,42 +122,43 @@
             <p>Quantity: ${order.productQuantity}</p>
             <p>Date: ${new Date(order.date).toLocaleDateString()}</p>
           </div>
-          <button type="button" class="remove-btn" data-index="${index}">Delete</button>
+          
         `;
     
-        // Add event listener to remove button
-        const removeButton = orderDiv.querySelector(".remove-btn");
-        removeButton.addEventListener("click", () => {
-          removeOrder(index); // Remove the order at this index
-        });
+        // // Add event listener to remove button
+        // const removeButton = orderDiv.querySelector(".remove-btn");
+        // removeButton.addEventListener("click", () => {
+        //   removeOrder(index); // Remove the order at this index
+        // });
+        // <button type="button" class="remove-btn" data-index="${index}">Delete</button>
     
         ordersList.appendChild(orderDiv);
       });
     }
     
 
-    // Function to remove order from history
-    function removeOrder(index) {
-      const user = auth.currentUser;
+    // // Function to remove order from history
+    // function removeOrder(index) {
+    //   const user = auth.currentUser;
 
-      if (!user) {
-        alert("Please log in to remove an order.");
-        window.location.href = "../../../Assets/pages/html/login.html";
-        return;
-      }
+    //   if (!user) {
+    //     alert("Please log in to remove an order.");
+    //     window.location.href = "../../../Assets/pages/html/login.html";
+    //     return;
+    //   }
 
-      const userEmail = normalizeEmail(user.email); // Normalize email
-      const ordersKey = `purchases_${userEmail}`;
-      let orderHistory = JSON.parse(localStorage.getItem(ordersKey)) || [];
+    //   const userEmail = normalizeEmail(user.email); // Normalize email
+    //   const ordersKey = `purchases_${userEmail}`;
+    //   let orderHistory = JSON.parse(localStorage.getItem(ordersKey)) || [];
 
-      // Remove the order at the specified index
-      orderHistory.splice(index, 1);
+    //   // Remove the order at the specified index
+    //   orderHistory.splice(index, 1);
 
-      // Update localStorage with the updated order history
-      localStorage.setItem(ordersKey, JSON.stringify(orderHistory));
-      console.log("Order removed. Updated order history:", orderHistory);
+    //   // Update localStorage with the updated order history
+    //   localStorage.setItem(ordersKey, JSON.stringify(orderHistory));
+    //   console.log("Order removed. Updated order history:", orderHistory);
 
-      // Reload order history to update the UI
-      loadOrderHistory();
-    }
+    //   // Reload order history to update the UI
+    //   loadOrderHistory();
+    // }
  
