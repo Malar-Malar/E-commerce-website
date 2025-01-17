@@ -144,5 +144,24 @@ window.addToCart = function addToCart(name, price, img) {
   localStorage.setItem(userEmail, JSON.stringify(cart));
 };
 
+// Function to handle "Buy Now"
+window.buyNow = function buyNow(name, price, img) {
+  console.log("Buy Now clicked with:", { name, price, img }); // Check if function is being triggered
+
+  if (!currentUser) {
+    alert("You need to log in to proceed.");
+    window.location.href = "../../../Assets/pages/html/login.html";
+    return;
+  }
+
+  // Save product details to localStorage
+  const productDetails = { name, price, img };
+  localStorage.setItem("buyNowProduct", JSON.stringify(productDetails));
+  console.log("Product saved to localStorage:", productDetails); // Verify data is saved correctly
+
+  // Redirect to buy page
+  window.location.href = "../../../Assets/pages/html/buy.html";
+};
+
 // Call fetchProducts when the page loads
 fetchProducts();

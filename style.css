@@ -224,12 +224,32 @@ margin-bottom: 50px;
           background-color: #555;
         } 
 
+        
+      
+      
 
+
+  
+  
+  /* Make the footer width 100% */
+  .footer {
+      width: 100%;
+      margin: 0; /* Remove any margins */
+      padding: 20px; /* Remove padding */
+      height: 30px;
+      background-color: rgb(114, 77, 25);
+  }
+  .footer p{
+    padding: 0px;
+    text-align: center;
+    font-size: 20px;
+    color: white;
+    
+  }
+  
+    
         
         
         
-        
-        
-        
-        
+      
         
