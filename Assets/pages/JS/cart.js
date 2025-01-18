@@ -22,11 +22,6 @@ let currentUser = null;
 
 // Function to remove an item from the cart
 function removeFromCart(index) {
-  if (!currentUser) {
-    alert("Please log in to modify your cart.");
-    return;
-  }
-
   const userEmail = currentUser.email.replace(/\./g, "_");
   let cart = JSON.parse(localStorage.getItem(userEmail)) || [];
 
@@ -72,7 +67,6 @@ function decreaseQuantity(index) {
   }
 }
 
-// Function to place an order
 function placeOrder() {
   if (!currentUser) {
     alert("Please log in to place an order.");
@@ -82,7 +76,13 @@ function placeOrder() {
   const userEmail = currentUser.email.replace(/\./g, "_");
   const cart = JSON.parse(localStorage.getItem(userEmail)) || [];
 
+  if (cart.length === 0) {
+    alert("Your cart is empty.");
+    return;
+  }
+
   // Save the current order to localStorage
+  console.log("Saving currentOrder:", cart); // Debugging log
   localStorage.setItem("currentOrder", JSON.stringify(cart));
 
   // Clear the cart from localStorage
@@ -136,20 +136,17 @@ window.onload = function () {
       cartList.appendChild(cartItemDiv);
     });
 
-    // Display total amount
     const totalAmountDiv = document.createElement("div");
     totalAmountDiv.classList.add("total-amount");
     totalAmountDiv.innerHTML = `<h3>Total Amount: ₹${totalAmount.toFixed(2)}</h3>`;
     cartList.appendChild(totalAmountDiv);
 
-    // Add Place Order Button
     const placeOrderButton = document.createElement("button");
     placeOrderButton.textContent = "Place Order";
     placeOrderButton.classList.add("place-order");
     placeOrderButton.onclick = placeOrder;
     cartList.appendChild(placeOrderButton);
 
-    // Event delegation for "+" and "-" buttons and "Remove" button
     cartList.addEventListener("click", function (event) {
       const target = event.target;
 

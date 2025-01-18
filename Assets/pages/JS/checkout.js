@@ -1,164 +1,100 @@
-import { getAuth } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-import { getFirestore, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyBGtCmw3QskPI9jyB-BB5LHN3IkqhwPerk",
-  authDomain: "bakery-shop-59e3c.firebaseapp.com",
-  projectId: "bakery-shop-59e3c",
-  storageBucket: "bakery-shop-59e3c.appspot.com",
-  messagingSenderId: "144499188515",
-  appId: "1:144499188515:web:53ea8d9b0eb845a45a6296",
-  measurementId: "G-KEVGH6JRX7",
-};
+    import { getAuth } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
-
-// Function to normalize email for localStorage key
-function normalizeEmail(email) {
-  return email.replace(".", "_");
-}
-
-// Handle user state
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    loadBuyNowProduct(user.email);
-  } else {
-    window.location.href = "../../../Assets/pages/html/login.html";
-  }
-});
-
-function loadBuyNowProduct(email) {
-  const buyNowProduct = JSON.parse(localStorage.getItem("buyNowProduct"));
-
-  if (!buyNowProduct) {
-    console.error("No product found for 'Buy Now'.");
-    return;
-  }
-
-  const productsList = document.getElementById("products-list");
-  productsList.innerHTML = `
-    <div class="product-item">
-      <img src="${buyNowProduct.img}" alt="${buyNowProduct.name}" style="width: 50px; height: 50px;">
-      <p><strong>${buyNowProduct.name}</strong></p>
-      <p>Price: ₹<span id="total-price">${buyNowProduct.price}</span></p>
-      <label for="quantity">Quantity:</label>
-      <select id="quantity">
-        ${Array.from({ length: 10 }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('')}
-      </select>
-    </div>
-  `;
-
-  document.getElementById("quantity").addEventListener("change", () => {
-    updateTotalPrice(buyNowProduct.price);
-  });
-
-  setupBillingForm(email, buyNowProduct);
-}
-
-function updateTotalPrice(price) {
-  const quantity = document.getElementById("quantity").value;
-  const totalPrice = price * quantity;
-  document.getElementById("total-price").textContent = totalPrice.toFixed(2);
-}
-
-function saveOrderToLocalHistory(email, orderDetails) {
-  const userEmail = normalizeEmail(email);
-  const ordersKey = `purchases_${userEmail}`;
-  let orderHistory = JSON.parse(localStorage.getItem(ordersKey)) || [];
-  orderHistory.push(orderDetails);
-  localStorage.setItem(ordersKey, JSON.stringify(orderHistory));
-}
-
-function setupBillingForm(userEmail, product) {
-  const paymentForm = document.getElementById("payment-form");
-
-  paymentForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const firstName = document.getElementById("first-name").value;
-    const lastName = document.getElementById("last-name").value;
-    const email = document.getElementById("email").value;
-    const quantity = parseInt(document.getElementById("quantity").value);
-    const address = document.getElementById("address").value;
-    const city = document.getElementById("city").value;
-    const state = document.getElementById("state").value;
-    const pincode = document.getElementById("pincode").value;
-    const phone = document.getElementById("phone").value;
-    const paymentMethod = document.getElementById("payment-method").value;
-
-    const orderDetails = {
-      productName: product.name,
-      productPrice: product.price,
-      productQuantity: quantity,
-      productImage: product.img,
-      total: product.price * quantity,
-      billingInfo: { firstName, lastName, address, city, state, pincode, phone, email },
-      paymentInfo: { method: paymentMethod },
-      date: new Date().toISOString(),
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBGtCmw3QskPI9jyB-BB5LHN3IkqhwPerk",
+      authDomain: "bakery-shop-59e3c.firebaseapp.com",
+      projectId: "bakery-shop-59e3c",
+      storageBucket: "bakery-shop-59e3c.appspot.com",
+      messagingSenderId: "144499188515",
+      appId: "1:144499188515:web:53ea8d9b0eb845a45a6296",
+      measurementId: "G-KEVGH6JRX7",
     };
 
-    if (paymentMethod === "credit-card" || paymentMethod === "debit-card") {
-      orderDetails.paymentInfo.cardNumber = document.getElementById("card-number").value;
-      orderDetails.paymentInfo.expiryDate = document.getElementById("expiry-date").value;
-      orderDetails.paymentInfo.cvv = document.getElementById("cvv").value;
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    function renderCheckoutPage() {
+      const order = JSON.parse(localStorage.getItem("currentOrder"));
+      console.log("Retrieved currentOrder:", order); // Debugging log
+
+      const checkoutList = document.getElementById("products-list");
+      if (!checkoutList) return;
+
+      checkoutList.innerHTML = "";
+
+      if (!order || order.length === 0) {
+        checkoutList.innerHTML = "<p>Your cart is empty.</p>";
+        return;
+      }
+
+      let totalAmount = 0;
+
+      order.forEach((item) => {
+        console.log("Processing item:", item); // Debugging log
+
+        const itemPrice = parseFloat(item.price.replace(/[^\d.]/g, "")) || 0;
+        const itemTotal = itemPrice * item.quantity;
+        totalAmount += itemTotal;
+
+        const itemHTML = `
+          <div class="checkout-item">
+            <img src="${item.img}" alt="${item.name}" class="checkout-item-img"
+                 onerror="this.src='../../../Assets/images/placeholder.png'">
+            <p>Name: ${item.name}</p>
+            <p>Price: ₹${itemPrice.toFixed(2)}</p>
+            <p>Quantity: ${item.quantity}</p>
+            <p>Total: ₹${itemTotal.toFixed(2)}</p>
+          </div>
+        `;
+
+        checkoutList.innerHTML += itemHTML;
+      });
+
+      const totalAmountDiv = document.createElement("div");
+      totalAmountDiv.classList.add("total-amount");
+      totalAmountDiv.innerHTML = `<h3>Total Amount: ₹${totalAmount.toFixed(2)}</h3>`;
+      checkoutList.appendChild(totalAmountDiv);
     }
 
-    try {
-      const orderRef = doc(collection(db, "users", normalizeEmail(userEmail), "orders"));
-      await setDoc(orderRef, orderDetails);
+    function handleOrderConfirmation(event) {
+      event.preventDefault(); // Prevent the form from submitting normally
 
-      // Save order to localStorage
-      saveOrderToLocalHistory(userEmail, orderDetails);
+      const order = JSON.parse(localStorage.getItem("currentOrder"));
+      if (!order || order.length === 0) {
+        alert("No items in your cart.");
+        return;
+      }
 
-      localStorage.removeItem("buyNowProduct");
-      showMessage("Order placed successfully!", "success");
+      // Save the order to localStorage or a database
+      console.log("Order confirmed:", order); // Debugging log
 
-      setTimeout(() => {
-        window.location.href = "../../../index.html";
-      }, 2000);
-    } catch (error) {
-      console.error("Error placing order:", error);
-      showMessage("Failed to place the order. Please try again later.", "error");
+      // Clear the cart after placing the order
+      localStorage.removeItem("currentOrder");
+
+      // Optionally, you can redirect the user to an order confirmation page or show a success message
+      alert("Your order has been placed successfully!");
+      location.href = "../../../Assets/pages/html/successful.html"; // Redirect to a confirmation page
     }
-  });
 
-  document.getElementById("payment-method").addEventListener("change", function () {
-    const cardDetails = document.getElementById("card-details");
-    if (this.value === "credit-card" || this.value === "debit-card") {
-      cardDetails.style.display = "block";
-    } else {
-      cardDetails.style.display = "none";
-    }
-  });
+    window.onload = function () {
+      auth.onAuthStateChanged((user) => {
+        if (!user) {
+          alert("Please log in to proceed.");
+          return;
+        }
 
-  document.getElementById("card-details").style.display = "none";
-}
+        // Render the checkout page
+        renderCheckoutPage();
 
-function showMessage(message, type) {
-  const container = document.getElementById("message-container");
-  if (!container) {
-    console.error("Message container not found");
-    return;
-  }
-
-  // Clear any previous message and set new content
-  container.textContent = message;
-
-  // Add styling class based on the type
-  container.className = `message ${type}`; // e.g., "message success" or "message error"
-
-  // Ensure visibility
-  container.style.display = "block";
-
-  // Hide the message after 3 seconds
-  setTimeout(() => {
-    container.style.display = "none";
-  }, 3000);
-}
-
+        // Attach event listener for the form submission
+        const paymentForm = document.getElementById("payment-form");
+        if (paymentForm) {
+          paymentForm.addEventListener("submit", handleOrderConfirmation);
+        }
+      });
+    };
+  
