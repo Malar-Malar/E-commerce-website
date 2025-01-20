@@ -159,6 +159,9 @@ html, body {
     font-family: Arial, sans-serif; /* Set default font */
    
 }
+html{
+    overflow-x: hidden;
+  }
 
 /* Profile Container */
 .profile_container {
@@ -228,7 +231,7 @@ a{
     padding: 20px;
     margin: 20px auto; /* Center the container */
     width: 90%; /* Responsive width */
-    max-width: 1500px; /* Limit maximum width */
+    max-width: 500px; /* Limit maximum width */
 }
 
 /* Style each order item */
@@ -257,9 +260,10 @@ h2{
 /* Order Details Section */
 .order-details {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 150px;
     flex: 1;
+
 }
 
 /* Order Image */

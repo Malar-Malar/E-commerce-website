@@ -6,6 +6,10 @@ body {
     background-color: #f4f4f4a5;
 }
 
+html{
+    overflow-x: hidden;
+  }
+
 /* Header */
 header {
     background-color: rgb(74, 35, 35);

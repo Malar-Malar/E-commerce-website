@@ -46,26 +46,17 @@ function loadBuyNowProduct(email) {
     <div class="product-item">
       <img src="${buyNowProduct.img}" alt="${buyNowProduct.name}" style="width: 50px; height: 50px;">
       <p><strong>${buyNowProduct.name}</strong></p>
-      <p>Price: ₹<span id="total-price">${buyNowProduct.price}</span></p>
-      <label for="quantity">Quantity:</label>
-      <select id="quantity">
-        ${Array.from({ length: 10 }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('')}
-      </select>
+      <p>Price: <span id="total-price">${buyNowProduct.price}</span></p>
+     
     </div>
   `;
 
-  document.getElementById("quantity").addEventListener("change", () => {
-    updateTotalPrice(buyNowProduct.price);
-  });
+ 
 
   setupBillingForm(email, buyNowProduct);
 }
 
-function updateTotalPrice(price) {
-  const quantity = document.getElementById("quantity").value;
-  const totalPrice = price * quantity;
-  document.getElementById("total-price").textContent = totalPrice.toFixed(2);
-}
+
 
 function saveOrderToLocalHistory(email, orderDetails) {
   const userEmail = normalizeEmail(email);
@@ -84,7 +75,6 @@ function setupBillingForm(userEmail, product) {
     const firstName = document.getElementById("first-name").value;
     const lastName = document.getElementById("last-name").value;
     const email = document.getElementById("email").value;
-    const quantity = parseInt(document.getElementById("quantity").value);
     const address = document.getElementById("address").value;
     const city = document.getElementById("city").value;
     const state = document.getElementById("state").value;
@@ -95,9 +85,7 @@ function setupBillingForm(userEmail, product) {
     const orderDetails = {
       productName: product.name,
       productPrice: product.price,
-      productQuantity: quantity,
       productImage: product.img,
-      total: product.price * quantity,
       billingInfo: { firstName, lastName, address, city, state, pincode, phone, email },
       paymentInfo: { method: paymentMethod },
       date: new Date().toISOString(),

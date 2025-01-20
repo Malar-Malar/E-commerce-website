@@ -20,9 +20,14 @@ const auth = getAuth(app);
 // Global variable to track the current user
 let currentUser = null;
 
+// Utility function to normalize email for `localStorage` key
+function normalizeEmail(email) {
+  return email.replace(/\./g, "_");
+}
+
 // Function to remove an item from the cart
 function removeFromCart(index) {
-  const userEmail = currentUser.email.replace(/\./g, "_");
+  const userEmail = normalizeEmail(currentUser.email);
   let cart = JSON.parse(localStorage.getItem(userEmail)) || [];
 
   // Remove the item at the specified index
@@ -37,7 +42,7 @@ function removeFromCart(index) {
 
 // Function to increase item quantity
 function increaseQuantity(index) {
-  const userEmail = currentUser.email.replace(/\./g, "_");
+  const userEmail = normalizeEmail(currentUser.email);
   let cart = JSON.parse(localStorage.getItem(userEmail)) || [];
 
   cart[index].quantity += 1;
@@ -51,7 +56,7 @@ function increaseQuantity(index) {
 
 // Function to decrease item quantity
 function decreaseQuantity(index) {
-  const userEmail = currentUser.email.replace(/\./g, "_");
+  const userEmail = normalizeEmail(currentUser.email);
   let cart = JSON.parse(localStorage.getItem(userEmail)) || [];
 
   if (cart[index].quantity > 1) {
@@ -67,13 +72,9 @@ function decreaseQuantity(index) {
   }
 }
 
+// Function to place the order
 function placeOrder() {
-  if (!currentUser) {
-    alert("Please log in to place an order.");
-    return;
-  }
-
-  const userEmail = currentUser.email.replace(/\./g, "_");
+  const userEmail = normalizeEmail(currentUser.email);
   const cart = JSON.parse(localStorage.getItem(userEmail)) || [];
 
   if (cart.length === 0) {
@@ -81,14 +82,10 @@ function placeOrder() {
     return;
   }
 
-  // Save the current order to localStorage
-  console.log("Saving currentOrder:", cart); // Debugging log
+  // Save the current cart to localStorage temporarily for the checkout page
   localStorage.setItem("currentOrder", JSON.stringify(cart));
 
-  // Clear the cart from localStorage
-  localStorage.removeItem(userEmail);
-
-  // Redirect to the checkout page
+  // Redirect to checkout page
   location.href = "../../../Assets/pages/html/checkout.html";
 }
 
@@ -97,15 +94,17 @@ window.onload = function () {
   auth.onAuthStateChanged((user) => {
     if (!user) {
       alert("Please log in to view your cart.");
+      location.href = "../../../Assets/pages/html/login.html";
       return;
     }
 
     currentUser = user;
-    const userEmail = currentUser.email.replace(/\./g, "_");
+    const userEmail = normalizeEmail(currentUser.email);
     const cart = JSON.parse(localStorage.getItem(userEmail)) || [];
 
     if (cart.length === 0) {
-      alert("Your cart is empty.");
+      const cartList = document.getElementById("cart-list");
+      cartList.innerHTML = "<p>Your cart is empty.</p>";
       return;
     }
 

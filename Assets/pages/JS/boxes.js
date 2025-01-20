@@ -89,18 +89,32 @@ window.buyNow = function buyNow(name, price, img) {
 };
 
 function addToCart(name, price, img) {
+  // Ensure the user is logged in and globalUserEmail is set
+  if (!globalUserEmail) {
+    alert("Please log in to add items to the cart.");
+    return;
+  }
+
+  // Normalize email to ensure consistent storage
   const userEmail = normalizeEmail(globalUserEmail);
+
+  // Fetch the current cart from localStorage, if exists
   let cart = JSON.parse(localStorage.getItem(userEmail)) || [];
 
+  // Find if the product already exists in the cart
   const existingItem = cart.find((item) => item.name === name && item.price === price);
 
   if (existingItem) {
+    // Increase the quantity if the item exists
     existingItem.quantity += 1;
     alert("Increased quantity of the item in your cart!");
   } else {
+    // Add the new item to the cart if it doesn't exist
     cart.push({ name, price, img, quantity: 1 });
     alert("Product added to cart!");
   }
 
+  // Save the updated cart back to localStorage
   localStorage.setItem(userEmail, JSON.stringify(cart));
 }
+
