@@ -98,8 +98,8 @@ function setupBillingForm(userEmail, product) {
     }
 
     try {
-      const orderRef = doc(collection(db, "users", normalizeEmail(userEmail), "orders"));
-      await setDoc(orderRef, orderDetails);
+      // const orderRef = doc(collection(db, "users", normalizeEmail(userEmail), "orders"));
+      // await setDoc(orderRef, orderDetails);
 
       // Save order to localStorage
       saveOrderToLocalHistory(userEmail, orderDetails);
