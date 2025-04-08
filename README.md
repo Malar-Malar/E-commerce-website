@@ -1,6 +1,6 @@
 ## PASTRY PROVISION
 
-I am building an E-commerce website . The website name is Pastry Provision ,Using HTML,CSS,JavaScript. 
+I am build an E-commerce website . The website name is Pastry Provision ,Using HTML,CSS,JavaScript. 
 Users can add products to the cart and buy them. Users can search for products, view order history, and see their profiles.
 
 ## Project Resources 
